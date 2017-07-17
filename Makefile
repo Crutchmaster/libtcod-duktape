@@ -4,9 +4,14 @@ APP_NAME = libtcod-duktape
 CC = gcc
 CFLAGS = -g -Wall -O2 -Wl,-rpath,. -std=c99
 CCLIBS = -lm -ltcod
+OBJECTS = (wildcard ./*.o)
 
 %.o: %.c %.h
 	$(CC) -L. $(CFLAGS) -c $< -o $@ $(CCLIBS)
 
 libtcod-duktape: main.c $(OBJMOD)
 	$(CC) -L. -o $@ $(CFLAGS) $^ $(CCLIBS)
+	
+clean:
+	rm $(OBJECTS)
+	

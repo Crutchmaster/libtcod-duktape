@@ -14,7 +14,7 @@ static duk_ret_t native_print(duk_context *ctx) {
 
 void init_TCOD() {
     TCOD_sys_set_fps(30);    
-    TCOD_console_init_root (80, 20, "libtcod-duktape", false, TCOD_RENDERER_SDL);
+    TCOD_console_init_root (80, 40, "libtcod-duktape", false, TCOD_RENDERER_SDL);
 
 }
 
@@ -26,6 +26,9 @@ int main() {
 
     duk_push_c_function(ctx, js_create_window, DUK_VARARGS);
     duk_put_global_string(ctx, "init_root_console");
+
+    duk_peval_string_noresult(ctx, "function onRender() {}");
+    duk_peval_string_noresult(ctx, "function onKeyPress(key, code) {}");
 
     char *buf;
     long size;
@@ -40,7 +43,13 @@ int main() {
 
     init_TCOD();
     while (!TCOD_console_is_window_closed()) {
-         TCOD_console_flush();
+        duk_peval_string_noresult(ctx, "onRender();");
+        TCOD_key_t key = TCOD_console_check_for_keypress(TCOD_KEY_PRESSED);
+        if (key.vk != TCODK_NONE) {
+            duk_push_sprintf(ctx, "onKeyPress('%c',%d);", key.c, key.vk);
+            duk_peval_noresult(ctx);
+        }
+        TCOD_console_flush();
     }
     
     return 0;

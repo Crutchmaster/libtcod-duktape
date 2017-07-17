@@ -10,8 +10,19 @@ Duktape.errCreate = function (err) {
     }
     return err;
 }
+i = 0;
+function onRender() {
+//    print("render"+(i++));
+}
+
+function onKeyPress(key, code) {
+    print("Key:"+key+" code:"+code);
+}
+
+/*
 print("test,test,test...");
 var a=1;
 print("a="+a);
 print("a+9="+(a+9));
 print("test");
+*/

@@ -1,5 +1,13 @@
 #include "native.h"
 
+duk_ret_t native_print(duk_context *ctx) {
+    duk_push_string(ctx, " ");
+    duk_insert(ctx, 0);
+    duk_join(ctx, duk_get_top(ctx) - 1);
+    printf("%s\n", duk_safe_to_string(ctx, -1));
+    return 0;
+}
+
 bool read_file(char *filename, char **buf, long *size) {
     FILE *fp;
     size_t sz;

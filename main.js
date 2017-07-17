@@ -12,12 +12,16 @@ Duktape.errCreate = function (err) {
 }
 i = 0;
 function onRender() {
+    set_char(5,5,"h");
+    set_char(6,5,"i");
 //    print("render"+(i++));
 }
 
 function onKeyPress(key, code) {
     print("Key:"+key+" code:"+code);
 }
+
+
 
 /*
 print("test,test,test...");

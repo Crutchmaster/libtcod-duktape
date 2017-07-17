@@ -8,7 +8,6 @@
 void init_TCOD() {
     TCOD_sys_set_fps(30);    
     TCOD_console_init_root (80, 40, "libtcod-duktape", false, TCOD_RENDERER_SDL);
-
 }
 
 int main() {
@@ -19,6 +18,9 @@ int main() {
 
     duk_push_c_function(ctx, js_create_window, DUK_VARARGS);
     duk_put_global_string(ctx, "init_root_console");
+
+    duk_push_c_function(ctx, js_console_set_char, DUK_VARARGS);
+    duk_put_global_string(ctx, "set_char");
 
     duk_peval_string_noresult(ctx, "function onRender() {}");
     duk_peval_string_noresult(ctx, "function onKeyPress(key, code) {}");

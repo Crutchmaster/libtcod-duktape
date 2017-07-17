@@ -1,5 +1,5 @@
 SRC_FILES = main.c duktape.c duktape.h duk_config.h
-OBJMOD = duktape.o native.o
+OBJMOD = duktape.o native.o wrapper.o
 APP_NAME = libtcod-duktape
 CC = gcc
 CFLAGS = -g -Wall -O2 -Wl,-rpath,. -std=c99

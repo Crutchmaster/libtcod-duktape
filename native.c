@@ -1,6 +1,6 @@
 #include "native.h"
 
-static bool read_file(char *filename, char **buf, long *size) {
+bool read_file(char *filename, char **buf, long *size) {
     FILE *fp;
     size_t sz;
     char *b;

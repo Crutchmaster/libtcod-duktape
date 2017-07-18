@@ -5,6 +5,6 @@
 #include "include/libtcod.h"
 
 duk_ret_t js_create_window(duk_context *ctx); 
-duk_ret_t js_console_set_char(duk_context *ctx);
+duk_ret_t js_console_put_char(duk_context *ctx);
 
 #endif /*WRAPPER_H_INCLUDED*/

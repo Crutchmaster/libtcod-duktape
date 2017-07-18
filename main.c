@@ -19,8 +19,8 @@ int main() {
     duk_push_c_function(ctx, js_create_window, DUK_VARARGS);
     duk_put_global_string(ctx, "init_root_console");
 
-    duk_push_c_function(ctx, js_console_set_char, DUK_VARARGS);
-    duk_put_global_string(ctx, "set_char");
+    duk_push_c_function(ctx, js_console_put_char, DUK_VARARGS);
+    duk_put_global_string(ctx, "put_char");
 
     duk_peval_string_noresult(ctx, "function onRender() {}");
     duk_peval_string_noresult(ctx, "function onKeyPress(key, code) {}");
@@ -41,7 +41,7 @@ int main() {
         duk_peval_string_noresult(ctx, "onRender();");
         TCOD_key_t key = TCOD_console_check_for_keypress(TCOD_KEY_PRESSED);
         if (key.vk != TCODK_NONE) {
-            duk_push_sprintf(ctx, "onKeyPress('%c',%d);", key.c, key.vk);
+            duk_push_sprintf(ctx, "onKeyPress(%d,%d);", (int)key.c, key.vk);
             duk_peval_noresult(ctx);
         }
         TCOD_console_flush();

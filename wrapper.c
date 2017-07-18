@@ -15,7 +15,7 @@ duk_ret_t js_create_window(duk_context *ctx) {
     return 0;
 }
 
-duk_ret_t js_console_set_char(duk_context *ctx) {
+duk_ret_t js_console_put_char(duk_context *ctx) {
     int x = duk_get_int(ctx, -3);
     int y = duk_get_int(ctx, -2);
     const char *c = duk_get_string(ctx, -1);

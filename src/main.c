@@ -1,4 +1,5 @@
 #include "duktape.h"
+#include "duk_module_duktape.h"
 #include "../include/libtcod.h"
 #include <stdio.h>
 #include "native.h"
@@ -13,6 +14,7 @@ void init_TCOD() {
 int main() {
 
     duk_context *ctx = duk_create_heap_default();
+    duk_module_duktape_init(ctx);
 
     init_duk(ctx);
 

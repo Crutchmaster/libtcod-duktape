@@ -10,14 +10,22 @@ Duktape.errCreate = function (err) {
     }
     return err;
 }
-i = 0;
-function onRender() {
-//    set_char(5,5,"h");
-//    set_char(6,5,"i");
-//    print("render"+(i++));
+
+Duktape.modSearch = function (id) {
+    print('Loading module:', id);
+    return read_file(id+".js");
 }
 
+/*
+var mod = require('js/module');
+print(mod.test());
+*/
+
 quit = false;
+
+function onRender() {
+}
+
 function quitCondition() {return quit;}
 
 x = 5;

@@ -15,6 +15,7 @@ void reg_fun(duk_context *ctx, duk_c_function func, char *func_js_name) {
 void init_duk(duk_context *ctx) {
 
     reg_fun(ctx, native_print, "print");
+    reg_fun(ctx, js_read_file, "read_file");
     reg_fun(ctx, js_console_put_char, "put_char");
     reg_fun(ctx, js_console_set_default_bg, "set_default_bg");
     reg_fun(ctx, js_console_set_default_fg, "set_default_fg");

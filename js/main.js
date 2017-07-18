@@ -32,15 +32,4 @@ function onKeyPress(key, code) {
     if (code == 16) {x++;}
     if (key == 113) {quit = true;}
     put_char(x,y,"@");
-
 }
-
-
-
-/*
-print("test,test,test...");
-var a=1;
-print("a="+a);
-print("a+9="+(a+9));
-print("test");
-*/

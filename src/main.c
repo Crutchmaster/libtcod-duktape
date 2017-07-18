@@ -1,5 +1,5 @@
 #include "duktape.h"
-#include "include/libtcod.h"
+#include "../include/libtcod.h"
 #include <stdio.h>
 #include "native.h"
 #include "wrapper.h"
@@ -28,7 +28,7 @@ int main() {
     char *buf;
     long size;
     //if (TCOD_sys_read_file("main.js", &buf, &size)) {
-    if (read_file("main.js", &buf, &size)) {
+    if (read_file("js/main.js", &buf, &size)) {
         //printf("code length: %ld\n%s\n/code\n", size, buf);
         if ( duk_peval_string(ctx, buf) !=0 ) {
             printf("JS error: %s\n", duk_safe_to_string(ctx, -1));

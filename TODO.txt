@@ -1,0 +1,7 @@
+Minimal:
+Move colors rgb constants from libtcod headers to js module
+Wrappers for string draw functions (utf)
+Map with fov
+Pathfinding
+Release:
+Make all js call safe

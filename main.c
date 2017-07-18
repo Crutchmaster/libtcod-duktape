@@ -35,9 +35,10 @@ int main() {
         }
         free(buf);
     }
+    bool quit = false;
 
     init_TCOD();
-    while (!TCOD_console_is_window_closed()) {
+    while (!TCOD_console_is_window_closed() && !quit) {
         duk_peval_string_noresult(ctx, "onRender();");
         TCOD_key_t key = TCOD_console_check_for_keypress(TCOD_KEY_PRESSED);
         if (key.vk != TCODK_NONE) {
@@ -45,6 +46,9 @@ int main() {
             duk_peval_noresult(ctx);
         }
         TCOD_console_flush();
+        if (duk_peval_string(ctx, "quitCondition()") == 0) {
+            quit = duk_get_boolean_default(ctx, -1, false);
+        }
     }
     
     return 0;

@@ -16,7 +16,10 @@ function onRender() {
 //    set_char(6,5,"i");
 //    print("render"+(i++));
 }
+
 quit = false;
+function quitCondition() {return quit;}
+
 x = 5;
 y = 5;
 

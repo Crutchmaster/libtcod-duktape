@@ -11,26 +11,15 @@ void init_TCOD() {
 }
 
 int main() {
+
     duk_context *ctx = duk_create_heap_default();
 
-    duk_push_c_function(ctx, native_print, DUK_VARARGS);
-    duk_put_global_string(ctx, "print");
-
-    duk_push_c_function(ctx, js_create_window, DUK_VARARGS);
-    duk_put_global_string(ctx, "init_root_console");
-
-    duk_push_c_function(ctx, js_console_put_char, DUK_VARARGS);
-    duk_put_global_string(ctx, "put_char");
-
-    duk_peval_string_noresult(ctx, "function onRender() {}");
-    duk_peval_string_noresult(ctx, "function onKeyPress(key, code) {}");
+    init_duk(ctx);
 
     char *buf;
     long size;
-    //if (TCOD_sys_read_file("main.js", &buf, &size)) {
     if (read_file("js/main.js", &buf, &size)) {
-        //printf("code length: %ld\n%s\n/code\n", size, buf);
-        if ( duk_peval_string(ctx, buf) !=0 ) {
+        if ( duk_peval_string(ctx, buf) != 0 ) {
             printf("JS error: %s\n", duk_safe_to_string(ctx, -1));
         }
         free(buf);
@@ -43,7 +32,9 @@ int main() {
         TCOD_key_t key = TCOD_console_check_for_keypress(TCOD_KEY_PRESSED);
         if (key.vk != TCODK_NONE) {
             duk_push_sprintf(ctx, "onKeyPress(%d,%d);", (int)key.c, key.vk);
-            duk_peval_noresult(ctx);
+            if (duk_peval(ctx) != 0) {
+                printf("JS error onKeyPress: %s\n", duk_safe_to_string(ctx, -1));
+            }
         }
         TCOD_console_flush();
         if (duk_peval_string(ctx, "quitCondition()") == 0) {

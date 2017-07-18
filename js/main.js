@@ -22,6 +22,9 @@ function quitCondition() {return quit;}
 
 x = 5;
 y = 5;
+red = {r:255,g:0,b:0};
+green = {r:0,g:255,b:0};
+blue = {r:0,g:0,b:255};
 
 function onKeyPress(key, code) {
     print("Key:"+key+" code:"+code);
@@ -31,5 +34,6 @@ function onKeyPress(key, code) {
     if (code == 15) {x--;}
     if (code == 16) {x++;}
     if (key == 113) {quit = true;}
+    if (key == 114) {set_default_fg({r:255,g:0,b:0});}
     put_char(x,y,"@");
 }

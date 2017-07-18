@@ -2,9 +2,15 @@
 #define WRAPPER_H_INCLUDED
 
 #include "duktape.h"
+#include "native.h"
 #include "../include/libtcod.h"
 
-duk_ret_t js_create_window(duk_context *ctx); 
+
+void init_duk();
+void reg_fun(duk_context *ctx, duk_c_function func, char *func_js_name);
+int get_int_key_def(duk_context *ctx, char *key, int def);
 duk_ret_t js_console_put_char(duk_context *ctx);
+duk_ret_t js_console_set_default_bg(duk_context *ctx);
+duk_ret_t js_console_set_default_fg(duk_context *ctx);
 
 #endif /*WRAPPER_H_INCLUDED*/

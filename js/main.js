@@ -16,7 +16,9 @@ Duktape.modSearch = function (id) {
     return read_file(id+".js");  //TODO: Fix segfault if file not found
 }
 
-color = require('js/colors');
+enums = require('js/enum');
+color = enums.color;
+char = enums.tcod_char;
 quit = false;
 
 function onRender() {
@@ -29,7 +31,7 @@ y = 5;
 
 function onKeyPress(key, code) {
     print("Key:"+key+" code:"+code);
-    put_char(x,y," ");
+    put_char(x,y,32);
     if (code == 14) {y--;}
     if (code == 17) {y++;}
     if (code == 15) {x--;}
@@ -37,6 +39,6 @@ function onKeyPress(key, code) {
     if (key == 113) {quit = true;}
     if (key == 114) {set_default_fg(color["brass"]);}
     tcod_print(10,2, "Test...-------_______@@@@!!!()()====++");
-    put_char(x,y,"@");
+    put_char(x,y,char["copyright"]);
 
 }

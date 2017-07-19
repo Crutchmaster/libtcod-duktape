@@ -54,8 +54,8 @@ duk_ret_t js_console_set_default_fg(duk_context *ctx) {
 duk_ret_t js_console_put_char(duk_context *ctx) {
     int x = duk_get_int(ctx, -3);
     int y = duk_get_int(ctx, -2);
-    const char *c = duk_get_string(ctx, -1);
-    TCOD_console_put_char(NULL, x, y, (int)c[0], TCOD_BKGND_SET);
+    int c = duk_get_int(ctx, -1);
+    TCOD_console_put_char(NULL, x, y, c, TCOD_BKGND_SET);
     return 0;
 }
 

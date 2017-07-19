@@ -1,6 +1,5 @@
 Minimal:
 Fonts loading with js
-Move TCOD_bkgnd_flag_t and TCOD_aligment_t to js
 Map with fov
 Pathfinding
 Release:

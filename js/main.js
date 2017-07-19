@@ -28,6 +28,14 @@ function quitCondition() {return quit;}
 
 x = 5;
 y = 5;
+map = tcod_new_map(50,50);
+tcod_map_set_prop(map, 15, 15, true, false);
+tcod_map_set_prop(map, 16, 15, true, true);
+var r = tcod_map_get_prop(map, 15, 15);
+print("r_trans:"+r.transparent);
+print("r_walk:"+r.walkable);
+print("r:"+r);
+
 
 function onKeyPress(key, code) {
     print("Key:"+key+" code:"+code);

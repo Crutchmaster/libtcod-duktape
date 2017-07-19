@@ -13,14 +13,10 @@ Duktape.errCreate = function (err) {
 
 Duktape.modSearch = function (id) {
     print('Loading module:', id);
-    return read_file(id+".js");
+    return read_file(id+".js");  //TODO: Fix segfault if file not found
 }
 
-/*
-var mod = require('js/module');
-print(mod.test());
-*/
-
+color = require('js/colors');
 quit = false;
 
 function onRender() {
@@ -30,9 +26,6 @@ function quitCondition() {return quit;}
 
 x = 5;
 y = 5;
-red = {r:255,g:0,b:0};
-green = {r:0,g:255,b:0};
-blue = {r:0,g:0,b:255};
 
 function onKeyPress(key, code) {
     print("Key:"+key+" code:"+code);
@@ -42,6 +35,8 @@ function onKeyPress(key, code) {
     if (code == 15) {x--;}
     if (code == 16) {x++;}
     if (key == 113) {quit = true;}
-    if (key == 114) {set_default_fg({r:255,g:0,b:0});}
+    if (key == 114) {set_default_fg(color["brass"]);}
+    tcod_print(10,2, "Test...-------_______@@@@!!!()()====++");
     put_char(x,y,"@");
+
 }

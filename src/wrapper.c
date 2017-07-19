@@ -19,9 +19,18 @@ void init_duk(duk_context *ctx) {
     reg_fun(ctx, js_console_put_char, "put_char");
     reg_fun(ctx, js_console_set_default_bg, "set_default_bg");
     reg_fun(ctx, js_console_set_default_fg, "set_default_fg");
+    reg_fun(ctx, js_console_print, "tcod_print");
 
     duk_peval_string_noresult(ctx, "function onRender() {}");
     duk_peval_string_noresult(ctx, "function onKeyPress(key, code) {}");
+}
+
+duk_ret_t js_console_print(duk_context *ctx) {
+    int x = duk_get_int(ctx, -3);
+    int y = duk_get_int(ctx, -2);
+    const char *s = duk_get_string(ctx, -1);
+    TCOD_console_print(NULL, x, y, s);
+    return 0;
 }
 
 duk_ret_t js_console_set_default_bg(duk_context *ctx) {

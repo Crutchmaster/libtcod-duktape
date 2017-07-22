@@ -17,5 +17,6 @@ duk_ret_t js_console_print(duk_context *ctx);
 duk_ret_t js_map_new(duk_context *ctx);
 duk_ret_t js_map_set_prop(duk_context *ctx);
 duk_ret_t js_map_get_prop(duk_context *ctx);
+duk_ret_t js_map_compute_fov(duk_context *ctx);
 
 #endif /*WRAPPER_H_INCLUDED*/

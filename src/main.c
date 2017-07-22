@@ -9,6 +9,7 @@
 void init_TCOD() {
     TCOD_sys_set_fps(30);    
     TCOD_console_init_root (80, 40, "libtcod-duktape", false, TCOD_RENDERER_SDL);
+    TCOD_console_set_background_flag(NULL, TCOD_BKGND_SET);
 }
 
 int main() {

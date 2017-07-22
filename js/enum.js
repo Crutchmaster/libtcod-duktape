@@ -356,6 +356,21 @@ tcod_bg["overlay"] = 11;
 tcod_bg["alph"] = 12;
 tcod_bg["default"] = 13;
 
+tcod_fov_alg = {};
+tcod_fov_alg["basic"] = 1;
+tcod_fov_alg["diamond"] = 2;
+tcod_fov_alg["shadow"] = 3;
+tcod_fov_alg["permissive_0"] = 4;
+tcod_fov_alg["permissive_1"] = 5;
+tcod_fov_alg["permissive_2"] = 6;
+tcod_fov_alg["permissive_3"] = 7;
+tcod_fov_alg["permissive_4"] = 8;
+tcod_fov_alg["permissive_5"] = 9;
+tcod_fov_alg["permissive_6"] = 10;
+tcod_fov_alg["permissive_7"] = 11;
+tcod_fov_alg["permissive_8"] = 12;
+tcod_fov_alg["restrictiv"] = 13;
+
 module.exports = {color : color, tcod_key:key, tcod_char: tcod_char, tcod_bg: tcod_bg};
 
 

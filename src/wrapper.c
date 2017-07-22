@@ -24,6 +24,7 @@ void init_duk(duk_context *ctx) {
     reg_fun(ctx, js_map_new, "tcod_new_map");
     reg_fun(ctx, js_map_set_prop, "tcod_map_set_prop");
     reg_fun(ctx, js_map_get_prop, "tcod_map_get_prop");
+    reg_fun(ctx, js_map_compute_fov, "tcod_map_compute_fov");
 
     duk_peval_string_noresult(ctx, "function onRender() {}");
     duk_peval_string_noresult(ctx, "function onKeyPress(key, code) {}");
@@ -38,12 +39,23 @@ duk_ret_t js_map_new(duk_context *ctx) {
     return 1;
 }
 
+duk_ret_t js_map_compute_fov(duk_context *ctx) {
+    TCOD_map_t *map = (TCOD_map_t*) duk_get_pointer(ctx, 0);
+    int x = duk_get_int(ctx, 1);
+    int y = duk_get_int(ctx, 2);
+    int r = duk_get_int(ctx, 3);
+    int walls = duk_get_boolean_default(ctx, 4, true);
+    TCOD_fov_algorithm_t algo = (TCOD_fov_algorithm_t)duk_get_int_default(ctx, 5, 0);
+    TCOD_map_compute_fov(*map, x, y, r, walls, algo);
+    return 0;
+}
+
 duk_ret_t js_map_set_prop(duk_context *ctx) {
     TCOD_map_t *map = (TCOD_map_t*) duk_get_pointer(ctx, 0);
     int x = duk_get_int_default(ctx, 1, 0);
     int y = duk_get_int_default(ctx, 2, 0);
-    bool trans = duk_get_boolean_default(ctx, 3, false);
-    bool walk = duk_get_boolean_default(ctx, 4, false);
+    bool trans = duk_get_boolean(ctx, 3);
+    bool walk = duk_get_boolean(ctx, 4);
     TCOD_map_set_properties(*map, x, y, trans, walk);
     return 0;
 }
@@ -54,12 +66,15 @@ duk_ret_t js_map_get_prop(duk_context *ctx) {
     int y = duk_get_int_default(ctx, 2, 0);
     bool trans = TCOD_map_is_transparent(*map, x, y);
     bool walk  = TCOD_map_is_walkable(*map, x, y);
+    bool fov = TCOD_map_is_in_fov(*map, x, y);
     duk_idx_t i;
     i = duk_push_object(ctx);
     duk_push_boolean(ctx, trans);
     duk_put_prop_string(ctx, i, "transparent");
     duk_push_boolean(ctx, walk);
     duk_put_prop_string(ctx, i, "walkable");
+    duk_push_boolean(ctx, fov);
+    duk_put_prop_string(ctx, i, "fov");
     return 1;
 }
 

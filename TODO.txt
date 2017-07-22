@@ -1,10 +1,9 @@
 Minimal:
-Fonts loading with js
-Size/Resize
-Console clear
-Map with fov
-Pathfinding
+    Fonts loading with js
+    Size/Resize
+    Console clear
+    Pathfinding
 Release:
-Make all js call safe
-Network
-Games select/download
+    Make all js call safe
+    Network
+    Games select/download

@@ -63,7 +63,8 @@ function renderMap(px, py) {
 }
 
 function renderPath() {
-    var path = tcod_astar_path(map_ptr,5,5,34,3);
+    //var path = tcod_astar_path(map_ptr,5,5,34,3);
+    var path = tcod_gen_line(5,5,30,8);
     for (var i in path) {
         var node = path[i];
         tcod_print(node.x, node.y, ".");

@@ -23,5 +23,6 @@ config.width = 80;
 config.height = 40;
 config.title = "ltsdt";
 
+//write_file("test.txt", "testtesttest\n", true);
 function getConfig(key) {return config[key];}
 

@@ -16,10 +16,12 @@ void init_duk(duk_context *ctx) {
 
     reg_fun(ctx, native_print, "print");
     reg_fun(ctx, js_read_file, "read_file");
+    reg_fun(ctx, js_write_file, "write_file");
     reg_fun(ctx, js_console_put_char, "put_char");
     reg_fun(ctx, js_console_set_default_bg, "set_default_bg");
     reg_fun(ctx, js_console_set_default_fg, "set_default_fg");
     reg_fun(ctx, js_console_print, "tcod_print");
+    reg_fun(ctx, js_console_clear, "tcod_clear");
 
     reg_fun(ctx, js_console_set_font, "set_font");
 
@@ -28,9 +30,15 @@ void init_duk(duk_context *ctx) {
     reg_fun(ctx, js_map_get_prop, "tcod_map_get_prop");
     reg_fun(ctx, js_map_compute_fov, "tcod_map_compute_fov");
     reg_fun(ctx, js_astar_path, "tcod_astar_path");
+    reg_fun(ctx, js_get_line, "tcod_gen_line");
 
     duk_peval_string_noresult(ctx, "function onRender() {}");
     duk_peval_string_noresult(ctx, "function onKeyPress(key, code) {}");
+}
+
+duk_ret_t js_console_clear(duk_context *ctx) {
+    TCOD_console_clear(NULL);
+    return 0;
 }
 
 duk_ret_t js_console_set_font(duk_context *ctx) {
@@ -47,6 +55,28 @@ duk_ret_t js_console_set_font(duk_context *ctx) {
     flags |= (gs ? TCOD_FONT_TYPE_GREYSCALE : flags);
     TCOD_console_set_custom_font(file, flags, x, y); 
     return 0;
+}
+
+duk_ret_t js_get_line(duk_context *ctx) {
+    int fx = duk_get_int(ctx, 0);
+    int fy = duk_get_int(ctx, 1);
+    int tx = duk_get_int(ctx, 2);
+    int ty = duk_get_int(ctx, 3);
+    int x,y,i;
+    duk_idx_t ai,oi;
+    ai = duk_push_array(ctx);
+    i = 0;
+    TCOD_line_init(fx, fy, tx, ty);
+    do {
+        oi = duk_push_object(ctx);
+        duk_push_int(ctx, x);
+        duk_put_prop_string(ctx, oi, "x");
+        duk_push_int(ctx, y);
+        duk_put_prop_string(ctx, oi, "y");
+        duk_put_prop_index(ctx, ai, i);
+        i++;
+    } while (!TCOD_line_step(&x, &y));
+    return 1;
 }
 
 duk_ret_t js_astar_path(duk_context *ctx) {

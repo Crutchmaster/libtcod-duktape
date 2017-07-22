@@ -1,7 +1,3 @@
-Minimal:
-    Console clear
-    Lines
-    Write files
 Release:
     Make all js call safe
     Network

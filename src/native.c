@@ -20,6 +20,26 @@ duk_ret_t js_read_file(duk_context *ctx) {
     return 1;
 }
 
+duk_ret_t js_write_file(duk_context *ctx) {
+    const char *filename = duk_get_string(ctx, 0);
+    const char *data = duk_get_string(ctx, 1);
+    bool append = duk_get_boolean_default(ctx, 2, true);
+    bool ok = write_file(filename, append, data);
+    duk_push_boolean(ctx, ok);
+    return 1;
+}
+
+bool write_file(const char *filename, bool append, const char *data) {
+    FILE *f = fopen(filename, (append ? "a" : "w"));
+    if (f == NULL) {
+        printf("Error opening %s for write.\n", filename);
+        return false;
+    }
+    fprintf(f, "%s", data);
+    fclose(f);
+    return true;
+}
+
 bool read_file(const char *filename, char **buf, long *size) {
     FILE *fp;
     size_t sz;

@@ -2,7 +2,7 @@ Minimal:
     Fonts loading with js
     Size/Resize
     Console clear
-    Pathfinding
+    Lines
 Release:
     Make all js call safe
     Network

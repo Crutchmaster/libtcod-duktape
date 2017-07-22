@@ -80,6 +80,14 @@ function renderMap(px, py) {
     }
 }
 
+function renderPath() {
+    var path = tcod_astar_path(map_ptr,5,5,34,3);
+    for (var i in path) {
+        var node = path[i];
+        tcod_print(node.x, node.y, ".");
+    }
+}
+
 function mapWalkable(x, y) {
     var m = tcod_map_get_prop(map_ptr, parseInt(x), parseInt(y));
     return m.walkable;
@@ -88,8 +96,8 @@ function mapWalkable(x, y) {
 mapgen();
 //tcod_map_set_prop(map_ptr, 5, 5, true, true);
 
+
 function onKeyPress(key, code) {
-    print("Key:"+key+" code:"+code);
     put_char(x,y,32);
     var dx=0,dy=0;
     if (code == 14) {dy=-1;}
@@ -99,10 +107,11 @@ function onKeyPress(key, code) {
     if (mapWalkable(x + dx, y + dy)) {
         x+=dx; y+=dy;
     }
-
     if (key == 113) {quit = true;}
     if (key == 114) {set_default_fg(color["brass"]);}
     renderMap(x,y);
+    renderPath();
     put_char(x,y,char["copyright"]);
+    print("x:"+x+";y:"+y);
 
 }

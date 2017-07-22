@@ -25,9 +25,35 @@ void init_duk(duk_context *ctx) {
     reg_fun(ctx, js_map_set_prop, "tcod_map_set_prop");
     reg_fun(ctx, js_map_get_prop, "tcod_map_get_prop");
     reg_fun(ctx, js_map_compute_fov, "tcod_map_compute_fov");
+    reg_fun(ctx, js_astar_path, "tcod_astar_path");
 
     duk_peval_string_noresult(ctx, "function onRender() {}");
     duk_peval_string_noresult(ctx, "function onKeyPress(key, code) {}");
+}
+
+duk_ret_t js_astar_path(duk_context *ctx) {
+    TCOD_map_t *map = (TCOD_map_t*) duk_get_pointer(ctx, 0);
+    int fx = duk_get_int(ctx, 1);
+    int fy = duk_get_int(ctx, 2);
+    int tx = duk_get_int(ctx, 3);
+    int ty = duk_get_int(ctx, 4);
+    float diag = duk_get_number_default(ctx, 5, 1.41f);
+    TCOD_path_t path = TCOD_path_new_using_map(*map, diag);
+    TCOD_path_compute(path, fx, fy, tx, ty);
+    duk_idx_t ai,oi;
+    ai = duk_push_array(ctx);
+    int x,y,i;
+    for (i = 0; i < TCOD_path_size(path); i++ ) {
+        TCOD_path_get(path, i, &x, &y);
+        oi = duk_push_object(ctx);
+        duk_push_int(ctx, x);
+        duk_put_prop_string(ctx, oi, "x");
+        duk_push_int(ctx, y);
+        duk_put_prop_string(ctx, oi, "y");
+        duk_put_prop_index(ctx, ai, i);
+    }
+    TCOD_path_delete(path);
+    return 1;
 }
 
 duk_ret_t js_map_new(duk_context *ctx) {

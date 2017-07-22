@@ -14,6 +14,8 @@ duk_ret_t js_console_set_default_bg(duk_context *ctx);
 duk_ret_t js_console_set_default_fg(duk_context *ctx);
 duk_ret_t js_console_print(duk_context *ctx);
 
+duk_ret_t js_console_set_font(duk_context *ctx);
+
 duk_ret_t js_map_new(duk_context *ctx);
 duk_ret_t js_map_set_prop(duk_context *ctx);
 duk_ret_t js_map_get_prop(duk_context *ctx);

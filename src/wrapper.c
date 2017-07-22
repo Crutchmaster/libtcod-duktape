@@ -21,6 +21,8 @@ void init_duk(duk_context *ctx) {
     reg_fun(ctx, js_console_set_default_fg, "set_default_fg");
     reg_fun(ctx, js_console_print, "tcod_print");
 
+    reg_fun(ctx, js_console_set_font, "set_font");
+
     reg_fun(ctx, js_map_new, "tcod_new_map");
     reg_fun(ctx, js_map_set_prop, "tcod_map_set_prop");
     reg_fun(ctx, js_map_get_prop, "tcod_map_get_prop");
@@ -29,6 +31,22 @@ void init_duk(duk_context *ctx) {
 
     duk_peval_string_noresult(ctx, "function onRender() {}");
     duk_peval_string_noresult(ctx, "function onKeyPress(key, code) {}");
+}
+
+duk_ret_t js_console_set_font(duk_context *ctx) {
+    const char *file = duk_get_string(ctx, 0);
+    int row = duk_get_boolean_default(ctx, 1, 0);
+    int x = duk_get_int_default(ctx, 2, 0);
+    int y = duk_get_int_default(ctx, 3, 0);
+    if (row > 2) {row = 2;}
+    if (row < 0) {row = 0;}
+    int rowflag[3] = {TCOD_FONT_LAYOUT_ASCII_INROW, TCOD_FONT_LAYOUT_ASCII_INCOL, TCOD_FONT_LAYOUT_TCOD};
+    bool gs = duk_get_boolean_default(ctx, 2, true);
+    int flags = 0;
+    flags |= rowflag[row];
+    flags |= (gs ? TCOD_FONT_TYPE_GREYSCALE : flags);
+    TCOD_console_set_custom_font(file, flags, x, y); 
+    return 0;
 }
 
 duk_ret_t js_astar_path(duk_context *ctx) {

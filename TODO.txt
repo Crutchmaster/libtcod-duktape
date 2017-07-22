@@ -1,8 +1,7 @@
 Minimal:
-    Fonts loading with js
-    Size/Resize
     Console clear
     Lines
+    Write files
 Release:
     Make all js call safe
     Network

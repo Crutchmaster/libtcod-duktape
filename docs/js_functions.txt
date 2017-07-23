@@ -1,0 +1,87 @@
+Native js functions:
+
+print(str)
+    print str to stdout
+    str : string
+    returns : none
+
+read_file(filename)
+    filename : path to file - string
+    returns : content of file
+
+write_file(filename, content, append = true)
+    filename : path to file - string
+    content : string
+    append : write to end of file if true, rewrite file if false
+    returns : true if content writed
+
+libtcod window output functions:
+
+put_char(x, y, char_ascii_code)
+    write char to window
+
+set_default_bg({r:red, g:greed, b:blue})
+    sets default background color
+    r,g,b - int. Color values like 'color["white"]' in enum.js
+
+set_default_fg({r:red, g:greed, b:blue})
+    sets default foregroubd color (symbols color)
+    r,b,g - int
+
+tcod_print(x, y, str)
+    print string to x,y coord.
+    x, y - int
+    str - ascii string
+
+tcod_clear()
+    clear window
+
+set_font(path_to_font_file, layout_flag, cols = 0, rows = 0)
+    set libtcod console font
+    path_to_font_file : string
+    layout_flag : int (0 - ascii in row, 1 - ascii in col, 2 - tcod layout) for more info see libtcod documentation
+    cols, rows - cols and rows amount in font image. 0 - auto select.
+
+libtcod map functions
+
+tcod_new_map(width, height)
+    create map
+    width, height - int
+    returns : tcod map pointer. Don't lost and modify it. Use with care.
+
+tcod_map_set_prop(map_pointer, x, y, transporent, walkable)
+    sets map properity (transporent/walkable)
+    map_pointer - pointer from tcod_new_map
+    x,y - int
+    transparent, walkable - boolean
+
+tcod_map_get_prop(map_pointer, x, y)
+    get map properity
+    return object {transparent - bool, walkable - bool, fov - bool}
+
+tcod_map_compute_fov(map_pointer, x, y, radius, light_walls, algorithm)
+    compute fov
+    x,y - int, fov origin
+    radius - int
+    light_walls - boolean. Wall cells has 'fov' flags if true
+    algorithm - int. Fov algorithm. See enum.js
+
+tcod_astar_path(map_pointer, from_x, from_y, to_x, to_y, diag_cost = 1.41)
+    find a* path
+    from_x, from_y, to_x, to_y - int
+    diag_cost - float
+    returns array of {x:int, y:int}. Array is empty if path not found
+
+tcod_gen_line(from_x, from_y, to_x, to_y)
+    generate line
+    from_x, from_y, to_x, to_y - int
+    returns array of {x:int, y:int}
+
+callback functions
+
+onRenderer()
+    calls on render every frame
+
+onKeyPress(key, code)
+    key - key type (see docs - TCOD_console_check_for_keypress)
+    code - ascii code    

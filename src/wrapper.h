@@ -13,6 +13,7 @@ duk_ret_t js_console_put_char(duk_context *ctx);
 duk_ret_t js_console_set_default_bg(duk_context *ctx);
 duk_ret_t js_console_set_default_fg(duk_context *ctx);
 duk_ret_t js_console_print(duk_context *ctx);
+duk_ret_t js_console_print_rect(duk_context *ctx);
 duk_ret_t js_console_clear(duk_context *ctx);
 
 duk_ret_t js_console_set_font(duk_context *ctx);

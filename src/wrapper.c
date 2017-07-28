@@ -21,6 +21,7 @@ void init_duk(duk_context *ctx) {
     reg_fun(ctx, js_console_set_default_bg, "set_default_bg");
     reg_fun(ctx, js_console_set_default_fg, "set_default_fg");
     reg_fun(ctx, js_console_print, "tcod_print");
+    reg_fun(ctx, js_console_print_rect, "tcod_print_rect");
     reg_fun(ctx, js_console_clear, "tcod_clear");
 
     reg_fun(ctx, js_console_set_font, "set_font");
@@ -159,6 +160,19 @@ duk_ret_t js_console_print(duk_context *ctx) {
     TCOD_console_print(NULL, x, y, s);
     return 0;
 }
+
+duk_ret_t js_console_print_rect(duk_context *ctx) {
+    int x = duk_get_int_default(ctx, 0, 0);
+    int y = duk_get_int_default(ctx, 1, 0);
+    int w = duk_get_int_default(ctx, 2, 0);
+    int h = duk_get_int_default(ctx, 3, 0);
+    const char *s = duk_get_string_default(ctx, 4, "");
+    TCOD_alignment_t align = (TCOD_alignment_t)duk_get_int_default(ctx, 5, (int)TCOD_LEFT);
+    TCOD_bkgnd_flag_t bgflag = (TCOD_bkgnd_flag_t)duk_get_int_default(ctx, 6, (int)TCOD_BKGND_SET);
+    TCOD_console_print_rect_ex(NULL, x, y, w, h, bgflag, align, s);
+    return 0;
+}
+
 
 duk_ret_t js_console_set_default_bg(duk_context *ctx) {
     int r = get_int_key_def(ctx, "r", 0);

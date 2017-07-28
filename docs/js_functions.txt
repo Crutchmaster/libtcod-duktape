@@ -33,6 +33,15 @@ tcod_print(x, y, str)
     x, y - int
     str - ascii string
 
+tcod_print(x, y, w, h, str, align = TCOD_LEFT, bg_flag = TCOD_BKGND_SET)
+    print string to x,y coord.
+    x, y - int - start of rect
+    w, h - int - width/heigth of rect
+    str - ascii string
+    align - int - alignment (0-left, 1-center, 2-right)
+    bg_flag - int - background flag
+
+
 tcod_clear()
     clear window
 

@@ -2,6 +2,7 @@ enums = require('js/enum');
 color = enums.color;
 char = enums.tcod_char;
 fov_alg = enums.tcod_fov_alg;
+align = enums.tcod_align;
 quit = false;
 
 function onRender() {
@@ -91,8 +92,11 @@ function onKeyPress(key, code) {
         x+=dx; y+=dy;
     }
     if (key == 113) {quit = true;}
-    renderMap(x,y);
-    renderPath();
+    //renderMap(x,y);
+    //renderPath();
+    set_default_bg(color["green"]);
+    tcod_print_rect(10,7,30,5,"             TEST            ",align.left);
+    set_default_bg(color["black"]);
     put_char(x,y,char["copyright"]);
     print("x:"+x+";y:"+y);
 

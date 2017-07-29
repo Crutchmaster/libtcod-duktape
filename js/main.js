@@ -89,12 +89,38 @@ function mapWalkable(x, y) {
 mapgen();
 //tcod_map_set_prop(map_ptr, 5, 5, true, true);
 
-menu = new ui.menu(3,3,10,5,["a","b","c","e","f","g","h"]);
-render.items.push(menu);
-control.active = menu;
+var menuTest = function() {
+    this.state = 0;
+    this.menu = {};
+    this.run = function() {
+        var state = this.state;
+        if (state == 0) {
+            this.menu = new ui.menu(3,3,10,5,["a","b","c","e","f","g","h"]);
+            render.items.push(this.menu);
+            control.active = this.menu;
+            state = 1;
+        }
+        if (state == 1) {
+            if (this.menu.closed) {
+                return false;
+            }
+        }
+        this.state = state;
+        return true;
+    }
+}
+logic.stack.push(new menuTest());
+//symtab = new ui.symtab(0,0);
+//render.items.push(symtab);
+//control.active = symtab;
+logic.run();
+render.render();
+
 
 function onKeyPress(char_code, key_code) {
     control.run(char_code, key_code); 
+    render.render();
+    logic.run();
     render.render();
     /*
     put_char(x,y,32);

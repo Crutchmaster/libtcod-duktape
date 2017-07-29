@@ -1,3 +1,19 @@
+function printBox(x, y, w, h) {
+    putc(x,y, char.nw);
+    putc(x+w,y, char.ne);
+    putc(x,y+h-1, char.sw);
+    putc(x+w,y+h-1, char.se);
+    for (var i = x + 1; i < x + w; i++) {
+        putc(i, y, char.hline);
+        putc(i, y+h-1, char.hline);
+    }
+    putc(x+w,y, char.ne);
+    for (var i = y+1; i<y+h-1; i++) {
+        putc(x,i, char.vline);
+        putc(x+w,i, char.vline);
+    }
+}
+
 var menu = function(x, y, w, h, list) {
     this.idx = 0;
     this.closed = false;
@@ -24,14 +40,17 @@ var menu = function(x, y, w, h, list) {
             if (this.idx > max) this.idx = max;
             if (this.start + size - 1 < this.idx ) {this.start = this.idx - (size - 1);}
         }
-        if (k == key.enter) this.submit();
-        if (k == key.esc) this.close();
+        if (k == key.enter || k == key.kpenter) this.submit();
+        if (k == key.escape) this.close();
+        print(this.idx);
     }
     this.submit = function() {
+        print("Submit");
         this.index = this.idx;
         this.closed = true;
     }
     this.close = function() {
+        print("Close");
         this.closed = true;
     }
     this.render = function() {
@@ -41,30 +60,36 @@ var menu = function(x, y, w, h, list) {
         var h = this.h;
         var w = this.w;
         setColor(color.black, color.white);
-        //frame
-        prints(x, y, "(");//chr(char.ne));
-        prints(x+1, y, "-".repeat(w-1)); //chr(char.hline).repeat(w-2));
-        prints(x+w, y, ")"); //chr(char.nw));
-        for (var i = y+1; i<y+h-1; i++) {
-            prints(x,i, "|"); //chr(char.vline));
-            prints(x+w,i,"|"); //chr(char.hline));
-        }
-        prints(x, y+h-1, "("); //chr(char.ne));
-        prints(x+1, y+h-1, "-".repeat(w-1)); //chr(char.hline).repeat(w-2));
-        prints(x+w, y+h-1, ")"); //chr(char.nw));
-        //items
+        printBox(x, y, w, h);
+       //items
         var item_cnt = h - 2;
         for (var i = this.start, ys = y+1; i < this.start+(h-2) && i <= max; i++, ys++) {
             setColor(i == this.idx ? color.grey : color.black);
             prints(x+1, ys, this.list[i]);
         }
-
+        setColor(color.black);
     }
 }
 
+var symtab = function(x, y) {
+    this.x = x;
+    this.y = y;
+    this.control = function(c, k) {
+    }
+    this.render = function() {
+        print("symtab_render");
+        for (var j = 0; j < 16; j++)
+            for (var i = 0; i < 16; i++) {
+                print((i+j*16));
+                if ((i+j*16) == 37) continue;
+                prints(i*4,j,chr(i+j*16)+""+(i+j*16));
+            }
+    }
+}
 
 ui = {
-    menu: menu
+    menu: menu,
+    symtab: symtab
 }
 
 module.exports = ui; 

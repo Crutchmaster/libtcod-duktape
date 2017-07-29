@@ -1,4 +1,4 @@
-color={};
+var color={};
 color["black"]={r:0,g:0,b:0};
 color["darkest_grey"]={r:31,g:31,b:31};
 color["darker_grey"]={r:63,g:63,b:63};
@@ -190,7 +190,7 @@ color["silver"]={r:203,g:203,b:203};
 color["celadon"]={r:172,g:255,b:175};
 color["peach"]={r:255,g:159,b:127};
 
-key = {};
+var key = {};
 key["none"]=0;
 key["escape"]=1;
 key["backspace"]=2;
@@ -258,7 +258,7 @@ key["scrolllock"]=63;
 key["space"]=64;
 key["char"]=65;
 
-tcod_char={};
+var tcod_char={};
 tcod_char["hline"] = 196;
 tcod_char["vline"] = 179;
 tcod_char["ne"] = 191;
@@ -340,7 +340,7 @@ tcod_char["pow3"] = 252;
 tcod_char["pow2"] = 253;
 tcod_char["bullet_square"] = 254;
 
-tcod_bg = {};
+var tcod_bg = {};
 tcod_bg["none"] = 0;
 tcod_bg["set"] = 1;
 tcod_bg["multiply"] = 2;
@@ -356,7 +356,7 @@ tcod_bg["overlay"] = 11;
 tcod_bg["alph"] = 12;
 tcod_bg["default"] = 13;
 
-tcod_fov_alg = {};
+var tcod_fov_alg = {};
 tcod_fov_alg["basic"] = 1;
 tcod_fov_alg["diamond"] = 2;
 tcod_fov_alg["shadow"] = 3;
@@ -371,7 +371,7 @@ tcod_fov_alg["permissive_7"] = 11;
 tcod_fov_alg["permissive_8"] = 12;
 tcod_fov_alg["restrictiv"] = 13;
 
-tcod_align = {}
+var tcod_align = {}
 tcod_align["left"] = 0;
 tcod_align["center"] = 1;
 tcod_align["right"] = 2;

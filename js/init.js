@@ -24,30 +24,10 @@ config.height = 40;
 config.title = "ltsdt";
 
 //write_file("test.txt", "testtesttest\n", true);
-function getConfig(key) {return config[key];}
-function chr(i) {return String.fromCharCode(i);}
-function setColor(bg, fg) {
-    if (bg) set_default_bg(bg);
-    if (fg) set_default_fg(fg);
-}
-function prints(x, y, s) {
-    tcod_print(parseInt(x), parseInt(y), s.toString());
-}
-Control = function() {
-    this.active = {
-        control : function(c,k) {}
-    }
-    this.run = function(c,k) {
-        this.active.control(c,k);
-    }
-}
-control = new Control();
-Renderer = function() {
-    this.items = [];
-    this.render = function() {
-        for (var i = this.items.length-1; i >= 0; --i ) {
-            this.items[i].render();
-        }
-    }
-}
-render = new Renderer();
+
+require("js/wrapper");
+sys = require("js/sys");
+
+control = new sys.Control();
+render = new sys.Renderer();
+logic = new sys.Logic();

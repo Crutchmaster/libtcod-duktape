@@ -89,13 +89,13 @@ function mapWalkable(x, y) {
 mapgen();
 //tcod_map_set_prop(map_ptr, 5, 5, true, true);
 
-menu = new ui.menu(3,3,40,10,["a","b","c"]);
+menu = new ui.menu(3,3,10,5,["a","b","c","e","f","g","h"]);
 render.items.push(menu);
 control.active = menu;
 
 function onKeyPress(char_code, key_code) {
-    render.render();
     control.run(char_code, key_code); 
+    render.render();
     /*
     put_char(x,y,32);
     var dx=0,dy=0;

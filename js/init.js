@@ -25,9 +25,11 @@ config.title = "ltsdt";
 
 //write_file("test.txt", "testtesttest\n", true);
 
+ui = require('js/ui');
 require("js/wrapper");
 sys = require("js/sys");
 
-control = new sys.Control();
 render = new sys.Renderer();
 logic = new sys.Logic();
+logic.add(new sys.GameSelector());
+

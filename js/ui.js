@@ -51,6 +51,7 @@ var menu = function(x, y, w, h, list) {
     }
     this.close = function() {
         print("Close");
+        this.index = -1;
         this.closed = true;
     }
     this.render = function() {

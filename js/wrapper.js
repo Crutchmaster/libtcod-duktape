@@ -13,4 +13,8 @@ prints = function(x, y, s) {
 putc = function(x, y, c) {
     put_char(parseInt(x), parseInt(y), parseInt(c)); 
 }
+mapWalkable = function(pmap, x, y) {
+    var m = tcod_map_get_prop(pmap, parseInt(x), parseInt(y));
+    return m.walkable;
+}
 

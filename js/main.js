@@ -3,12 +3,17 @@ color = enums.color;
 char = enums.tcod_char;
 fov_alg = enums.tcod_fov_alg;
 align = enums.tcod_align;
+key = enums.key;
 quit = false;
 
+/*
 var dirlist = read_dir_list(".");
 for (var i in dirlist) {
     print("dir:"+dirlist[i]);
 }
+*/
+ui = require('js/ui');
+
 
 function onRender() {
 }
@@ -84,8 +89,14 @@ function mapWalkable(x, y) {
 mapgen();
 //tcod_map_set_prop(map_ptr, 5, 5, true, true);
 
+menu = new ui.menu(3,3,40,10,["a","b","c"]);
+render.items.push(menu);
+control.active = menu;
 
-function onKeyPress(key, code) {
+function onKeyPress(char_code, key_code) {
+    render.render();
+    control.run(char_code, key_code); 
+    /*
     put_char(x,y,32);
     var dx=0,dy=0;
     if (code == 14) {dy=-1;}
@@ -103,5 +114,5 @@ function onKeyPress(key, code) {
     set_default_bg(color["black"]);
     put_char(x,y,char["copyright"]);
     print("x:"+x+";y:"+y);
-
+    */
 }

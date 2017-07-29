@@ -376,6 +376,6 @@ tcod_align["left"] = 0;
 tcod_align["center"] = 1;
 tcod_align["right"] = 2;
 
-module.exports = {color : color, tcod_key:key, tcod_char: tcod_char, tcod_bg: tcod_bg, tcod_align: tcod_align};
+module.exports = {color : color, key:key, tcod_char: tcod_char, tcod_bg: tcod_bg, tcod_align: tcod_align};
 
 

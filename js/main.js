@@ -5,6 +5,11 @@ fov_alg = enums.tcod_fov_alg;
 align = enums.tcod_align;
 quit = false;
 
+var dirlist = read_dir_list(".");
+for (var i in dirlist) {
+    print("dir:"+dirlist[i]);
+}
+
 function onRender() {
 }
 
@@ -32,7 +37,6 @@ function mapgen() {
         var s = map[y];
         var trans, walk;
         var c;
-        print(s);
         for (var x = 0; x < s.length; x++) {
             c = s.charAt(x)
             trans = (c == "-");
@@ -92,10 +96,10 @@ function onKeyPress(key, code) {
         x+=dx; y+=dy;
     }
     if (key == 113) {quit = true;}
-    //renderMap(x,y);
-    //renderPath();
+    renderMap(x,y);
+    renderPath();
     set_default_bg(color["green"]);
-    tcod_print_rect(10,7,30,5,"             TEST            ",align.left);
+    tcod_print_rect(5,5,7,1,"TEST",align.right);
     set_default_bg(color["black"]);
     put_char(x,y,char["copyright"]);
     print("x:"+x+";y:"+y);

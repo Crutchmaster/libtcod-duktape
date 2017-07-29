@@ -1,4 +1,5 @@
 #include "native.h"
+#include <dirent.h>
 
 duk_ret_t native_print(duk_context *ctx) {
     duk_push_string(ctx, " ");
@@ -10,7 +11,7 @@ duk_ret_t native_print(duk_context *ctx) {
 
 duk_ret_t js_read_file(duk_context *ctx) {
     char *f;
-    const char *filename = duk_get_string(ctx, -1);
+    const char *filename = duk_get_string(ctx, 0);
     long size;
     if (read_file(filename, &f, &size)) {
         duk_push_string(ctx, f);
@@ -29,6 +30,30 @@ duk_ret_t js_write_file(duk_context *ctx) {
     return 1;
 }
 
+duk_ret_t js_read_dir_list(duk_context *ctx) {
+    const char *dirname = duk_get_string_default(ctx, 0, ".");
+    DIR *d;
+    struct dirent *de;
+    if ((d = opendir(dirname)) == NULL ) {
+        printf("Error. Couldn't open dir %s.\n",dirname);
+        duk_push_boolean(ctx, false);
+        return 1;
+    }
+    duk_idx_t ai = duk_push_array(ctx);
+    int i = 0;
+    while ((de = readdir(d)) != NULL ) {
+        if (de->d_type == DT_DIR) {
+            duk_push_string(ctx, de->d_name);
+            duk_put_prop_index(ctx, ai, i);
+            i++;
+        }
+    }
+    closedir(d);
+    return 1;
+}
+
+
+
 bool write_file(const char *filename, bool append, const char *data) {
     FILE *f = fopen(filename, (append ? "a" : "w"));
     if (f == NULL) {
@@ -45,6 +70,10 @@ bool read_file(const char *filename, char **buf, long *size) {
     size_t sz;
     char *b;
     fp = fopen(filename, "rb");
+    if (fp == NULL) {
+        printf("Error opening %s for read.\n", filename);
+        return false;
+    }
     fseek(fp, 0L, SEEK_END);
     *size = ftell(fp);
     sz = (size_t)*size;

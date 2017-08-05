@@ -3,7 +3,8 @@ Duktape.errCreate = function (err) {
         if (typeof err === 'object' &&
             typeof err.message !== 'undefined' &&
             typeof err.lineNumber === 'number') {
-            err.message = err.message + ' (line ' + err.lineNumber + ')';
+            //err.message += ' (line ' + err.lineNumber + ')';
+            err.message = err.stack;
         }
     } catch (e) {
         // ignore; for cases such as where "message" is not writable etc

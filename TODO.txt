@@ -1,5 +1,6 @@
 Framework:
-
+    Undefinded object check for Renderer and Logic
+    Tunnel mask on map
 Wrappers:
 
 Release:

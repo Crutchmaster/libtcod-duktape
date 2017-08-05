@@ -99,7 +99,7 @@ var tcodTest = function() {
             var trans, walk;
             var c;
             for (var x = 0; x < s.length; x++) {
-                c = s.charAt(x)
+                c = s.charAt(x);
                 trans = (c == "-");
                 walk = trans;
                 tcod_map_set_prop(this.map_ptr, x, parseInt(y), trans, walk);

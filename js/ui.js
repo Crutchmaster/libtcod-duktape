@@ -29,7 +29,6 @@ var menu = function(x, y, w, h, list) {
     this.control = function(c, k) {
         var max = this.list.length - 1;
         var size = this.h - 2;
-        print("k:"+k+";c:"+c);
         if (k == key.up) {
             this.idx--;
             if (this.idx < 0) this.idx = 0;
@@ -42,15 +41,12 @@ var menu = function(x, y, w, h, list) {
         }
         if (k == key.enter || k == key.kpenter) this.submit();
         if (k == key.escape) this.close();
-        print(this.idx);
     }
     this.submit = function() {
-        print("Submit");
         this.index = this.idx;
         this.closed = true;
     }
     this.close = function() {
-        print("Close");
         this.index = -1;
         this.closed = true;
     }
@@ -78,13 +74,21 @@ var symtab = function(x, y) {
     this.control = function(c, k) {
     }
     this.render = function() {
-        print("symtab_render");
         for (var j = 0; j < 16; j++)
             for (var i = 0; i < 16; i++) {
                 print((i+j*16));
                 if ((i+j*16) == 37) continue;
                 prints(i*4,j,chr(i+j*16)+""+(i+j*16));
             }
+    }
+}
+
+var map = function(map_ptr, x, y, w, h) {
+    this.x = x;
+    this.y = y;
+    this.control = function(c, k) {
+    }
+    this.render = function() {
     }
 }
 

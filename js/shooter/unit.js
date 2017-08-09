@@ -17,12 +17,24 @@ var unitAct = {
         end : function() {this.walk(-1);}
     },
     turn_left: {
-        time : 300,
+        time : 200,
         end : function() {this.turn(-1);}
     },
     turn_right: {
-        time : 300,
+        time : 200,
         end : function() {this.turn(1);}
+    },
+    turn_180 : {
+        time : 800,
+        end : function() {this.turn(4);}
+    },
+    turn_left_90 : {
+        time : 400,
+        end : function() {this.turn(-2);}
+    },
+    turn_right_90 : {
+        time : 400,
+        end : function() {this.turn(2);}
     }
 }
 
@@ -41,7 +53,7 @@ var Unit = function(map) {
     this.rotF = 0;
     this.doTurn = function() {
         this.actTime -= 100;
-        if (this.actTime <= 0 && !this.actionEnd) {
+        if (this.actTime <= 0 && !this.actionEnd && this.action) {
             this.actionEnd = true;
             this.doAct = this.action.end;
             this.doAct();
@@ -49,8 +61,8 @@ var Unit = function(map) {
     }
     this.turn = function(d) {
         this.rotF += d;
-        if (this.rotF < 0) this.rotF = 7;
-        if (this.rotF > 7) this.rotF = 0;
+        if (this.rotF < 0) this.rotF += 8;
+        if (this.rotF > 7) this.rotF -= 8;
         this.dx = this.rotPhase[this.rotF + 2];
         this.dy = this.rotPhase[this.rotF];
     }

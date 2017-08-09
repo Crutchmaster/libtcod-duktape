@@ -1,10 +1,9 @@
 var Map = require("js/shooter/map");
 var PlayerCtrl = require("js/shooter/playerCtrl");
 
-
 var Battle = function() {
-    this.state = 0;
     this.player = {};
+    this.units;
     this.map = {};
     this.quit = false;
     this.closed = false;
@@ -20,7 +19,7 @@ var Battle = function() {
             map.allNear(p.x, p.y, function(x, y) {map.closeDoor(x,y)});
         }
         while (p.actTime > 0) this.turn();
-        map.compFOV(p.x, p.y);
+        map.compFOV(p.x, p.y, true);
     }
     this.turn = function() {
         this.player.doTurn();
@@ -38,25 +37,26 @@ var Battle = function() {
         this.map = new Map();
         this.player = this.map.player;
         this.player.control = PlayerCtrl;
-        this.map.compFOV(this.player.x, this.player.y);
+        this.map.compFOV(this.player.x, this.player.y, true);
     }
-    this.run = function() {
-        if (this.state == 0) {
-            render.add(this);
-            render.add(this.map);
-            this.state = 1;
-        }
-        if (this.state == 1) {
-            this.turn();
-            if (this.quit) {
-                this.map.destroy();
-                this.closed = true;
-                this.map.closed = true;
-                return false;
-            }
+
+    this.initRender = function() {
+        render.add(this);
+        render.add(this.map);
+        return this.mainLoop;
+    }
+
+    this.mainLoop = function() {
+        this.turn();
+        if (this.quit) {
+            this.map.destroy();
+            this.closed = true;
+            this.map.closed = true;
+            return false;
         }
         return true;
     }
+    this.run = this.initRender;
     this.init();
 }
 

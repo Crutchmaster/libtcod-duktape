@@ -1,5 +1,6 @@
 var Map = require("js/shooter/map");
 var PlayerCtrl = require("js/shooter/playerCtrl");
+var Aim = require("js/shooter/aim");
 
 var Battle = function() {
     this.player = {};
@@ -13,6 +14,7 @@ var Battle = function() {
         var p = this.player;
         var map = this.map;
         if (c == 113) {this.quit = true;}
+        if (c == 102) {this.run = this.aim;}
         p.control(c, k);
         
         if (c == 99)  {
@@ -40,9 +42,19 @@ var Battle = function() {
         this.map.compFOV(this.player.x, this.player.y, true);
     }
 
+    this.aim = function() {
+        this.run = this.fire;
+        return new Aim(this.player.x, this.player.y);
+    }
+
+    this.fire = function(res) {
+        print("Fire x:"+res.x+" y:"+res.y);
+        return this.mainLoop;
+    }
+
     this.initRender = function() {
-        render.add(this);
         render.add(this.map);
+        render.add(this);
         return this.mainLoop;
     }
 

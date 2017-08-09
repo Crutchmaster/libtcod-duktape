@@ -4,7 +4,7 @@ var Renderer = function() {
     this.render = function() {
         tcod_clear();
         if (this.items.length > 0 && this.items[this.items.length-1].closed) this.items.pop();
-        for (var i = this.items.length-1; i >= 0; i-- ) {
+        for (var i = 0; i < this.items.length; i++ ) {
             if (!this.items[i].closed) {this.items[i].render();}
         }
     }

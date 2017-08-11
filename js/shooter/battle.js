@@ -6,6 +6,7 @@ var Battle = function() {
     this.player = {};
     this.units;
     this.map = {};
+    this.log = new ui.list(0, 20, 80, 10);
     this.quit = false;
     this.closed = false;
 
@@ -48,13 +49,18 @@ var Battle = function() {
     }
 
     this.fire = function(res) {
-        print("Fire x:"+res.x+" y:"+res.y);
+        if (this.map.fov(res.x, res.y)) {
+            this.log.push("Fire x:"+res.x+" y:"+res.y);
+        } else {
+            this.log.push("Not in fov");
+        }
         return this.mainLoop;
     }
 
     this.initRender = function() {
         render.add(this.map);
         render.add(this);
+        render.add(this.log);
         return this.mainLoop;
     }
 
@@ -64,6 +70,7 @@ var Battle = function() {
             this.map.destroy();
             this.closed = true;
             this.map.closed = true;
+            this.log.closed = true;
             return false;
         }
         return true;

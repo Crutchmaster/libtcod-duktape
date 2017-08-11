@@ -54,7 +54,7 @@ var GameSelector = function() {
         var games_list = read_dir_list("js/");
         for (var i = 0; i < games_list.length; i++) {
             var s = games_list[i];
-            if (s == "." || s == "..") {
+            if (s == "." || s == ".." || s == "lib") {
                 games_list.splice(i,1);
                 i--;
             }

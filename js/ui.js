@@ -1,4 +1,4 @@
-function printBox(x, y, w, h) {
+printBox = function(x, y, w, h) {
     putc(x,y, char.nw);
     putc(x+w,y, char.ne);
     putc(x,y+h-1, char.sw);
@@ -14,87 +14,13 @@ function printBox(x, y, w, h) {
     }
 }
 
-var menu = function(x, y, w, h, list) {
-    this.idx = 0;
-    this.closed = false;
-    this.index = 0;
-    this.x = x;
-    this.y = y;
-    h=h<3?3:h;
-    w=w<4?4:w;
-    this.w = w;
-    this.h = h;
-    this.list = list;
-    this.start = 0;
-    this.control = function(c, k) {
-        var max = this.list.length - 1;
-        var size = this.h - 2;
-        if (k == key.up) {
-            this.idx--;
-            if (this.idx < 0) this.idx = 0;
-            if (this.start > this.idx) {this.start = this.idx;}
-        }
-        if (k == key.down) {
-            this.idx++;
-            if (this.idx > max) this.idx = max;
-            if (this.start + size - 1 < this.idx ) {this.start = this.idx - (size - 1);}
-        }
-        if (k == key.enter || k == key.kpenter) this.submit();
-        if (k == key.escape) this.close();
-    }
-    this.submit = function() {
-        this.index = this.idx;
-        this.closed = true;
-    }
-    this.close = function() {
-        this.index = -1;
-        this.closed = true;
-    }
-    this.render = function() {
-        var max = this.list.length - 1;
-        var x = this.x;
-        var y = this.y;
-        var h = this.h;
-        var w = this.w;
-        setColor(color.black, color.white);
-        printBox(x, y, w, h);
-       //items
-        var item_cnt = h - 2;
-        for (var i = this.start, ys = y+1; i < this.start+(h-2) && i <= max; i++, ys++) {
-            setColor(i == this.idx ? color.grey : color.black);
-            prints(x+1, ys, this.list[i]);
-        }
-        setColor(color.black);
-    }
-}
-
-var symtab = function(x, y) {
-    this.x = x;
-    this.y = y;
-    this.control = function(c, k) {
-    }
-    this.render = function() {
-        for (var j = 0; j < 16; j++)
-            for (var i = 0; i < 16; i++) {
-                print((i+j*16));
-                if ((i+j*16) == 37) continue;
-                prints(i*4,j,chr(i+j*16)+""+(i+j*16));
-            }
-    }
-}
-
-var map = function(map_ptr, x, y, w, h) {
-    this.x = x;
-    this.y = y;
-    this.control = function(c, k) {
-    }
-    this.render = function() {
-    }
-}
-
+var menu = require("js/lib/menu");
+var symtab = require("js/lib/symtab");
+var list = require("js/lib/list");
 ui = {
     menu: menu,
-    symtab: symtab
+    symtab: symtab,
+    list: list
 }
 
 module.exports = ui; 

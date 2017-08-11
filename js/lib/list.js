@@ -19,6 +19,7 @@ var list = function(x, y, w, h) {
         setColor(this.bg, this.fg);
         var x = this.x, y = this.y, h = this.h, w = this.w;
         var border = this.border;
+        clearBox(x, y, w, h);
         if (border) printBox(x, y, w, h);
         
         var bsize = border ? 2 : 0;

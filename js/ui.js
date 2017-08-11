@@ -14,6 +14,13 @@ printBox = function(x, y, w, h) {
     }
 }
 
+clearBox = function(x, y, w, h) {
+    var tpl = " ".repeat(w);
+    for (var j = y; j < y+h; j++) {
+        prints(x, j, tpl);
+    }
+}
+
 var menu = require("js/lib/menu");
 var symtab = require("js/lib/symtab");
 var list = require("js/lib/list");

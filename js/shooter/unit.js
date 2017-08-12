@@ -1,3 +1,4 @@
+var Hitbox = require("js/shooter/hitbox");
 var rotPhase = [0, 1, 1, 1, 0, -1, -1, -1, 0, 1]; //y
              //[1, 1, 0,-1,-1, -1,  0,  1, 1, 1]; x = y + 2;
 // \5|6/7(-1)
@@ -41,6 +42,7 @@ var unitAct = {
 var Unit = function(map) {
     this.unitAct = unitAct;
     this.rotPhase = rotPhase;
+    this.hitbox = new Hitbox("human");
     this.x = 0;
     this.y = 0;
     this.map = map;
@@ -78,6 +80,9 @@ var Unit = function(map) {
         if (map.walkable(tx,ty)) {
             this.x = tx; this.y = ty;
         }
+    }
+    this.hit = function(x, y) {
+        return this.hitbox.hit(x, y);
     }
 }
 

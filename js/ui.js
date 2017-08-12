@@ -24,10 +24,12 @@ clearBox = function(x, y, w, h) {
 var menu = require("js/lib/menu");
 var symtab = require("js/lib/symtab");
 var list = require("js/lib/list");
+var hitboxpan = require("js/lib/hitboxpanel");
 ui = {
     menu: menu,
     symtab: symtab,
-    list: list
+    list: list,
+    hitboxpanel: hitboxpan
 }
 
-module.exports = ui; 
+module.exports = ui;

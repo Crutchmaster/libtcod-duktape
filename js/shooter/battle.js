@@ -7,6 +7,7 @@ var Battle = function() {
     this.units;
     this.map = {};
     this.log = new ui.list(0, 20, 80, 10);
+    this.hitboxpan = {};
     this.quit = false;
     this.closed = false;
 
@@ -39,21 +40,28 @@ var Battle = function() {
     this.init = function() {
         this.map = new Map();
         this.player = this.map.player;
+        this.hitboxpan = new ui.hitboxpanel(40, 3, this.player.hitbox);
         this.player.control = PlayerCtrl;
         this.map.compFOV(this.player.x, this.player.y, true);
     }
 
     this.aim = function() {
-        this.run = this.fire;
+        this.run = this.shapeAim;
         return new Aim(this.player.x, this.player.y);
     }
 
-    this.fire = function(res) {
-        if (this.map.fov(res.x, res.y)) {
-            this.log.push("Fire x:"+res.x+" y:"+res.y);
-        } else {
-            this.log.push("Not in fov");
+    this.shapeAim = function(res) {
+        if (!this.map.fov(res.x, res.y)) {
+            return this.mainLoop;
         }
+        var u = this.map.getUnit(res.x, res.y);
+        if (!u) return this.mainLoop;
+        this.hitboxpan.setHitBox(u.hitbox);
+        this.run = this.fire;
+        return this.hitboxpan;
+    }
+
+    this.fire = function(res) {
         return this.mainLoop;
     }
 
@@ -61,6 +69,7 @@ var Battle = function() {
         render.add(this.map);
         render.add(this);
         render.add(this.log);
+        render.add(this.hitboxpan);
         return this.mainLoop;
     }
 
@@ -71,6 +80,7 @@ var Battle = function() {
             this.closed = true;
             this.map.closed = true;
             this.log.closed = true;
+            this.hitboxpan.closed = true;
             return false;
         }
         return true;

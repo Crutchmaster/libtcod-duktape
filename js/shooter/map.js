@@ -191,6 +191,13 @@ var Map = function() {
         f(x-1, y); f(x, y); f(x+1, y);
         f(x-1, y+1); f(x, y+1); f(x+1, y+1);
     }
+    this.getUnit = function(x, y) {
+        for (var i = 0; i < this.units.length; i++) {
+            var u = this.units[i];
+            if (u.x == x && u.y == y) return u;
+        }
+        return false;
+    }
     this.init();
 }
 module.exports = Map;

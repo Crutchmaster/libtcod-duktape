@@ -1,3 +1,7 @@
+rng = function(min, max) {
+    max += 1;
+    return Math.floor(Math.random() * (max - min)) + min;
+}
 getConfig = function(key) {return config[key];}
 setColor = function(bg, fg) {
     if (!bg && !fg) {

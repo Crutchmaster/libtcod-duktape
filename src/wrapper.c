@@ -26,6 +26,7 @@ void init_duk(duk_context *ctx) {
     reg_fun(ctx, js_console_print, "tcod_print");
     reg_fun(ctx, js_console_print_rect, "tcod_print_rect");
     reg_fun(ctx, js_console_clear, "tcod_clear");
+    reg_fun(ctx, js_console_flush, "tcod_flush");
 
     reg_fun(ctx, js_console_set_font, "set_font");
 
@@ -42,6 +43,11 @@ void init_duk(duk_context *ctx) {
 
 duk_ret_t js_console_clear(duk_context *ctx) {
     TCOD_console_clear(NULL);
+    return 0;
+}
+
+duk_ret_t js_console_flush(duk_context *ctx) {
+    TCOD_console_flush();
     return 0;
 }
 

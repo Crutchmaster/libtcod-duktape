@@ -5,6 +5,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <dirent.h>
+#include <time.h>
 #include "duktape.h"
 
 bool read_file(const char *filename, char **buf, long *size);
@@ -15,5 +16,5 @@ duk_ret_t js_write_file(duk_context *ctx);
 duk_ret_t js_read_file(duk_context *ctx);
 duk_ret_t js_read_dir_list(duk_context *ctx);
 duk_ret_t native_print(duk_context *ctx);
-
+duk_ret_t js_sleep(duk_context *ctx);
 #endif /*NATIVE_H_INCLUDED*/

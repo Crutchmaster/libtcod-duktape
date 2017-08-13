@@ -52,6 +52,19 @@ duk_ret_t js_read_dir_list(duk_context *ctx) {
     return 1;
 }
 
+duk_ret_t js_sleep(duk_context *ctx) {
+    int ms = duk_get_int_default(ctx, 0, 0);
+    int s = ms / 1000;
+    long ns = (ms % 1000) * 1000000;
+    struct timespec t, t2;
+    t.tv_sec = s;
+    t.tv_nsec = ns;
+    if (nanosleep(&t, &t2) < 0) {
+        printf("Nanosleep error. Time s,ns: %d,%ld",s,ns);
+    }
+    return 0;
+}
+
 
 
 bool write_file(const char *filename, bool append, const char *data) {

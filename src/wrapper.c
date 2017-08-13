@@ -18,6 +18,7 @@ void init_duk(duk_context *ctx) {
     reg_fun(ctx, js_read_file, "read_file");
     reg_fun(ctx, js_write_file, "write_file");
     reg_fun(ctx, js_read_dir_list, "read_dir_list");
+    reg_fun(ctx, js_sleep, "sleep");
 
     reg_fun(ctx, js_console_put_char, "put_char");
     reg_fun(ctx, js_console_set_default_bg, "set_default_bg");

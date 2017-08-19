@@ -5,6 +5,8 @@ var hitboxpanel = function(x, y, hitbox) {
     this.y = y;
     this.tx = 12;
     this.ty = 12;
+    this.bx = 0;
+    this.by = 0;
     this.w = 26;
     this.h = 26;
     this.hitbox = hitbox;
@@ -18,8 +20,9 @@ var hitboxpanel = function(x, y, hitbox) {
         if (k == key.kp9) {this.ty--;this.tx++;}
         if (k == key.kp1) {this.ty++;this.tx--;}
         if (k == key.kp3) {this.ty++;this.tx++;}
+        this.tx = inbound(this.tx, 0, this.w - 2);
+        this.ty = inbound(this.ty, 0, this.h - 2);
         if (k == key.kpenter || k == key.enter) {this.fire();}
- 
     }
     this.init = function() {
         this.hitbox_out = [];
@@ -36,18 +39,35 @@ var hitboxpanel = function(x, y, hitbox) {
         setColor(color.black, color.white);
         clearBox(x, y, w, h);
         printBox(x, y, w, h);
+        x++ ; y++;
         for (var i = 0; i < this.hitbox_out.length; i++) {
-            prints(x + 1, y + 1 + i, this.hitbox_out[i]);
+            prints(x , y + i, this.hitbox_out[i]);
         }
         setColor(color.black, color.red);
+        for (var i = 0; i < this.hitbox.lasthit.length; i++) {
+            var hit = this.hitbox.lasthit[i];
+            prints(x+hit.x, y+hit.y, "*");
+        }
+
+        if (this.anim) {
+            if (between(this.bx, 0, w-2) && between(this.by, 0, h-2)) prints(x+this.bx, y+this.by, ".");
+        }
         prints(x+this.tx, y+this.ty, "+");
     }
     this.setHitBox = function(hb) {
         this.hitbox = hb;
     }
+    this.setTarget = function(p) {
+        this.tx = inbound(p.x, 0, this.w - 2);
+        this.ty = inbound(p.y, 0, this.h - 2);
+    }
     this.fire = function() {
         this.result = {x:this.tx, y:this.ty}
         this.done = true;
+    }
+    this.initBullet = function() {
+        this.bx = this.tx;
+        this.by = this.ty;
     }
     this.mainLoop = function() {
         if (this.done) {

@@ -1,6 +1,14 @@
 Framework:
     Undefinded object check for Renderer and Logic
-    Tunnel mask on map
+    Debug out of hitbox hits
+    Autofire
+    Target auto select
+    Large cross sight
+    Injuries
+    Items
+    Inventory
+    AI
+    GetInput function
 Wrappers:
 
 Release:

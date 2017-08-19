@@ -5,6 +5,7 @@ var Aim = function(x, y) {
     this.y = y;
     this.result = false;
     this.closed = false; //for render. Set to true to delete from stack.
+    this.anim = false;
     this.path = [];
     this.render = function() {
         for (var i = 1; i < this.path.length; i++) {
@@ -24,7 +25,7 @@ var Aim = function(x, y) {
         if (k == key.kp9) {this.y--; this.x++;}
         if (k == key.kp1) {this.y++; this.x--;}
         if (k == key.kp3) {this.y++; this.x++;}
-        if (k == key.enter || k == key.kpenter) {this.result = {x:this.x,y:this.y}; this.closed = true;}
+        if (k == key.enter || k == key.kpenter) {this.result = {x:this.x,y:this.y,x0:this.x0,y0:this.y0}; this.closed = true;}
         if (k == key.escape) {this.closed = true;}
         if (this.x != xo || this.y != yo) this.path = tcod_gen_line(this.x0, this.y0, this.x, this.y);
     }

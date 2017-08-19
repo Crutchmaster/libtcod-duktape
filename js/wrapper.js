@@ -2,6 +2,15 @@ rng = function(min, max) {
     max += 1;
     return Math.floor(Math.random() * (max - min)) + min;
 }
+rngf = function(min, max) {
+    return (Math.random() * (max - min)) + min;
+}
+sign = function(d) {
+    return d < 0 ? -1 : d > 0 ? 1 : 0;
+}
+
+between = function(x, min, max) {return (x <= max && x >= min);}
+inbound = function(x, min, max) {return x < min ? min : x > max ? max : x;}
 getConfig = function(key) {return config[key];}
 setColor = function(bg, fg) {
     if (!bg && !fg) {

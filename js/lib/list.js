@@ -8,9 +8,14 @@ var list = function(x, y, w, h) {
     this.closed = false;
     this.fg = color.white;
     this.bg = color.black;
-    this.push = function(s) {
-        this.stack.push(s);
-        if (this.stack.length > 50) this.stack.shift();
+    this.push = function(p) {
+        var s = [];
+        if (typeof(p) == "string") s.push(p);
+        else if (typeof(p) != "object") return;
+        for (var i = 0; i < s.length; i++) {
+            this.stack.push(s[i]);
+            if (this.stack.length > 50) this.stack.shift();
+        }
     }
     this.clear = function() {
         this.stack = [];

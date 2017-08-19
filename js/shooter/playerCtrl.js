@@ -9,9 +9,12 @@ var playerCtrl = function(c, k) {
     if (k == key.kp3 || k == key.kp1) this.action = unitAct.turn_180;
     if (k == key.kp7) this.action = unitAct.turn_left_90;
     if (k == key.kp9) this.action = unitAct.turn_right_90;
+    if (c == 97) this.action = unitAct.aim; //a
+    if (c == 102) this.action = unitAct.fire; //f
     if (this.action) {
         this.actTime = this.action.time;
         this.actionEnd = false;
     }
+    return this.action;
 }
 module.exports = playerCtrl;

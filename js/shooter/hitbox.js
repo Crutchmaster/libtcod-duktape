@@ -49,7 +49,8 @@ var templates = {
             "G" : "groin",
             "L" : "leg",
             "k" : "knee",
-            "e" : "feet"
+            "e" : "feet",
+            "0" : "eye"
         }
     }
 }
@@ -60,11 +61,11 @@ var hitbox = function(template_name) {
     this.lasthit = [];
     this.clearHits = function() {this.lasthis = [];}
     this.hit = function(x, y) {
-        if (x >= this.hitbox[0].length || y >= this.hitbox.length) return false;
+        if (!between(y, 0, this.hitbox.length) || !between(x, 0, this.hitbox[y].length)) return false;
         var c = this.hitbox[y].charAt(x);
         if (c == " ") return false;
         this.lasthit.push({x:x, y:y});
-        return this.hitbox.legend[c];
+        return this.hitbox_tpl.legend[c];
     }
 }
 module.exports = hitbox;

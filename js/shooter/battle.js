@@ -10,23 +10,26 @@ var Battle = function() {
     this.hitboxpan = {};
     this.quit = false;
     this.closed = false;
+    this.global = {};
 
     this.control = function(c, k) {
         var dx = 0,dy = 0,tx,ty;
         var p = this.player;
         var map = this.map;
         if (c == 113) {this.quit = true;}
-        if (c == 102) {this.run = this.aim;}
-        p.control(c, k);
+        var pAct = p.control(c, k);
+        if (pAct == p.unitAct.aim) {
+            this.run = this.aim;
+        }
         
-        if (c == 99)  {
+        if (c == 99) {
             map.allNear(p.x, p.y, function(x, y) {map.closeDoor(x,y)});
         }
         while (p.actTime > 0) this.turn();
         map.compFOV(p.x, p.y, true);
     }
     this.turn = function() {
-        this.player.doTurn();
+        this.log.push(this.player.doTurn());
     }
 
     this.render = function() {
@@ -57,12 +60,14 @@ var Battle = function() {
         var u = this.map.getUnit(res.x, res.y);
         if (!u) return this.mainLoop;
         this.hitboxpan.setHitBox(u.hitbox);
-        this.run = this.fire;
+        this.player.target = u;
+        this.player.firetraj = tcod_gen_line(res.x0, res.y0, res.x, res.y);
+        this.run = function(res) {
+            this.player.targetAim = {x: res.x, y:res.y};
+            this.player.hitboxpan = this.hitboxpan;
+            return this.mainLoop;
+        }
         return this.hitboxpan;
-    }
-
-    this.fire = function(res) {
-        return this.mainLoop;
     }
 
     this.initRender = function() {

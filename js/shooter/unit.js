@@ -112,6 +112,7 @@ var Unit = function(map) {
         this.targetAim.x += aimError.x;
         this.targetAim.y += aimError.y;
         var c = this.weapon.brustReAim;
+        var ret = [];
 
         while ((gun=this.weapon.fire()).bullet) {
             this.hitboxpan.initBullet();
@@ -142,7 +143,7 @@ var Unit = function(map) {
             var hit_part = this.target.hit(Math.floor(x), Math.floor(y));
             this.hitboxpan.render();
             tcod_flush();
-            var ret = hit_part ? "Hit in " + hit_part : "Miss";
+            ret.push(hit_part ? "Hit in " + hit_part : "Miss");
         }
         this.hitboxpan.anim = false;
         sleep(200);

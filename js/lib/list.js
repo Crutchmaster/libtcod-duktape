@@ -11,7 +11,8 @@ var list = function(x, y, w, h) {
     this.push = function(p) {
         var s = [];
         if (typeof(p) == "string") s.push(p);
-        else if (typeof(p) != "object") return;
+        else if (typeof(p) == "object") s = p;
+        else return;
         for (var i = 0; i < s.length; i++) {
             this.stack.push(s[i]);
             if (this.stack.length > 50) this.stack.shift();

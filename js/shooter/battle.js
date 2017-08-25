@@ -2,11 +2,13 @@ var Map = require("js/shooter/map");
 var PlayerCtrl = require("js/shooter/playerCtrl");
 var Aim = require("js/shooter/aim");
 
+
 var Battle = function() {
     this.player = {};
     this.units;
     this.map = {};
     this.log = new ui.list(0, 20, 80, 10);
+    this.panel = new ui.panel(0, 18, 81, 2);
     this.hitboxpan = {};
     this.quit = false;
     this.closed = false;
@@ -33,11 +35,11 @@ var Battle = function() {
     }
 
     this.render = function() {
-        setColor(color.black, color.white);
         var p = this.player;
+        setColor(color.black, color.white);
         prints(p.x, p.y, "@");
         setColor(color.black, color.red);
-        prints(p.x+p.dx, p.y+p.dy, "+");
+        prints(p.x + p.dx, p.y + p.dy, "+");
     }
 
     this.init = function() {
@@ -46,6 +48,8 @@ var Battle = function() {
         this.hitboxpan = new ui.hitboxpanel(40, 3, this.player.hitbox);
         this.player.control = PlayerCtrl;
         this.map.compFOV(this.player.x, this.player.y, true);
+        var pan = this.panel;
+        pan.setStr("help", 1, 0, "Numkeys - move, a - aim, f - fire, c - close doors, q - quit");
     }
 
     this.aim = function() {
@@ -65,8 +69,10 @@ var Battle = function() {
         this.run = function(res) {
             this.player.targetAim = {x: res.x, y:res.y};
             this.player.hitboxpan = this.hitboxpan;
+            this.hitboxpan.hide();
             return this.mainLoop;
         }
+        this.hitboxpan.show();
         return this.hitboxpan;
     }
 
@@ -74,7 +80,8 @@ var Battle = function() {
         render.add(this.map);
         render.add(this);
         render.add(this.log);
-        render.add(this.hitboxpan);
+        //render.add(this.hitboxpan);
+        this.panel.show();
         return this.mainLoop;
     }
 
@@ -86,6 +93,7 @@ var Battle = function() {
             this.map.closed = true;
             this.log.closed = true;
             this.hitboxpan.closed = true;
+            this.panel.hide();
             return false;
         }
         return true;

@@ -102,6 +102,7 @@ var Unit = function(map) {
     this.fire = function() {
         if (!this.target) return "No target";
         var range = this.firetraj.length;
+        this.hitboxpan.show();
         this.hitboxpan.anim = true;
         this.hitboxpan.closed = false;
         var gun;
@@ -146,7 +147,10 @@ var Unit = function(map) {
             ret.push(hit_part ? "Hit in " + hit_part : "Miss");
         }
         this.hitboxpan.anim = false;
-        sleep(200);
+        this.hitboxpan.render();
+        tcod_flush();
+        sleep(1500);
+        this.hitboxpan.hide();
         return ret;
     }
     this.aim = function() {

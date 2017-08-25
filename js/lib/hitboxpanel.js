@@ -11,6 +11,13 @@ var hitboxpanel = function(x, y, hitbox) {
     this.h = 26;
     this.hitbox = hitbox;
     this.hitbox_out = [];
+    this.show = function() {
+        render.add(this);
+        this.closed = false;
+    }
+    this.hide = function() {
+        this.closed = true;
+    }
     this.control = function(c, k) {
         if (k == key.up || k == key.kp8) this.ty--;
         if (k == key.down || k == key.kp2) this.ty++;

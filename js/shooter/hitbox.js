@@ -61,7 +61,7 @@ var hitbox = function(template_name) {
     this.lasthit = [];
     this.clearHits = function() {this.lasthis = [];}
     this.hit = function(x, y) {
-        if (!between(y, 0, this.hitbox.length) || !between(x, 0, this.hitbox[y].length)) return false;
+        if (!between(y, 0, this.hitbox.length-1) || !between(x, 0, this.hitbox[y].length-1)) return false;
         var c = this.hitbox[y].charAt(x);
         if (c == " ") return false;
         this.lasthit.push({x:x, y:y});

@@ -1,19 +1,10 @@
 var panel = function(x, y, w, h) {
     this.result = false;
-    this.closed = false;
     this.box = false;
     this.geometry = {x:x, y:y, w:w, h:h};
     this.elements = {};
     this.fg = color.white;
     this.bg = color.black;
-
-    this.show = function() {
-        render.add(this);
-        this.closed = false;
-    }
-    this.hide = function() {
-        this.closed = true;
-    }
 
     this.render = function() {
         var g = this.geometry;
@@ -24,7 +15,7 @@ var panel = function(x, y, w, h) {
             var e = this.elements[key];
             setColor(e.bg, e.fg);
             var x = e.x + g.x, y = e.y + g.y;
-            if (typeof(e.str) == "object") prints(x, y, e.str.s)
+            if (typeof(e.str) == "object") prints(x, y, e.str.str())
             else prints(x, y, e.str+"");
         }
     }
@@ -40,5 +31,6 @@ var panel = function(x, y, w, h) {
     }
 
 }
+panel.prototype = new ui.proto();
 
 module.exports = panel;

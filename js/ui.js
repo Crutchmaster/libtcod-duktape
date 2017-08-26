@@ -17,22 +17,18 @@ printBox = function(x, y, w, h) {
 clearBox = function(x, y, w, h, inner) {
     if (inner) {w -= 2; h -= 2; x--; y--;}
     var tpl = " ".repeat(w - 1);
-    for (var j = y; j < y + h - 1; j++) {
+    for (var j = y; j < y + h; j++) {
         prints(x, j, tpl);
     }
 }
 
-var menu = require("js/lib/menu");
-var symtab = require("js/lib/symtab");
-var list = require("js/lib/list");
-var hitboxpan = require("js/lib/hitboxpanel");
-var panel = require("js/lib/panel");
-ui = {
-    menu: menu,
-    symtab: symtab,
-    list: list,
-    panel: panel,
-    hitboxpanel: hitboxpan
-}
+ui = {}
+
+ui.proto = require("js/lib/ui_proto");
+ui.menu = require("js/lib/menu");
+ui.symtab = require("js/lib/symtab");
+ui.list = require("js/lib/list");
+ui.hitboxpanel = require("js/lib/hitboxpanel");
+ui.panel = require("js/lib/panel");
 
 module.exports = ui;

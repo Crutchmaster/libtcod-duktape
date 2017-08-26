@@ -7,12 +7,14 @@ var Map = function() {
     this.enemy_pos = [];
     this.player_pos = {};
     this.exit_points = [];
+    this.playerTargets = [];
     this.doors = [];
-    this.h = 35;
+    this.h = 18;
     this.w = 80;
     this.closed = false;
     this.units = [];
     this.player = {};
+    this.bullet = false;
 
     this.init = function() {
         this.map_ptr = tcod_new_map(this.w,this.h);
@@ -110,14 +112,30 @@ var Map = function() {
                 
 
             }
+        this.playerTargets = [];
         for (var i in this.units) {
             var u = this.units[i];
             if (u != this.player && this.fov(u.x, u.y)) {
+                this.playerTargets.push({x:u.x, y: u.y});
                 setColor(color.black, color.red);
                 prints(u.x, u.y, "@");
             }
         }
+        
+        var p = this.player;
+        setColor(color.black, color.white);
+        prints(p.x, p.y, "@");
+        setColor(color.black, color.red);
+        prints(p.x + p.dx, p.y + p.dy, "+");
+
+        if (this.bullet) {
+            var b = this.bullet;
+            var t = b.traj[b.i];
+            setColor(false, color.yellow);
+            prints(t.x, t.y, ".");
+        }
     }
+    this.setBullet = function(b) {this.bullet = b;}
     this.compFOV = function(px, py, tunnel) {
         if (tunnel) {
             var trans = [];

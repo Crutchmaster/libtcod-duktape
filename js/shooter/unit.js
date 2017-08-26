@@ -117,6 +117,8 @@ var Unit = function(map) {
 
         while ((gun=this.weapon.fire()).bullet) {
             this.hitboxpan.initBullet();
+            var mapBullet = {traj : this.firetraj, i:0};
+            this.map.setBullet(mapBullet);
             c--;
             var x = this.targetAim.x + 0.5, y = this.targetAim.y + 0.5;
             var d = this.skill.fireError("smg", gun.bullet);
@@ -134,14 +136,18 @@ var Unit = function(map) {
             this.targetAim.y += Math.round((gun.dt.y * range) + (d.y * range));
             this.hitboxpan.setTarget(this.targetAim);
             for (var i = 0; i < range; i++) {
+                mapBullet.i = i;
                 x += dw.x, y += dw.y;
                 this.hitboxpan.bx = Math.floor(x);
                 this.hitboxpan.by = Math.floor(y);
+                this.map.render();
                 this.hitboxpan.render();
                 tcod_flush();
                 sleep(100);
             }
             var hit_part = this.target.hit(Math.floor(x), Math.floor(y));
+            this.map.setBullet(false);
+            this.map.render();
             this.hitboxpan.render();
             tcod_flush();
             ret.push(hit_part ? "Hit in " + hit_part : "Miss");

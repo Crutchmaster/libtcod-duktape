@@ -9,6 +9,7 @@ var Battle = function() {
     this.map = {};
     this.log = new ui.list(0, 20, 80, 10);
     this.panel = new ui.panel(0, 18, 81, 2);
+    this.info = new ui.panel(0, 30, 81, 8);
     this.hitboxpan = {};
     this.quit = false;
     this.closed = false;
@@ -35,11 +36,6 @@ var Battle = function() {
     }
 
     this.render = function() {
-        var p = this.player;
-        setColor(color.black, color.white);
-        prints(p.x, p.y, "@");
-        setColor(color.black, color.red);
-        prints(p.x + p.dx, p.y + p.dy, "+");
     }
 
     this.init = function() {
@@ -54,7 +50,7 @@ var Battle = function() {
 
     this.aim = function() {
         this.run = this.shapeAim;
-        return new Aim(this.player.x, this.player.y);
+        return new Aim(this.player.x, this.player.y, this.map.playerTargets);
     }
 
     this.shapeAim = function(res) {
@@ -82,6 +78,7 @@ var Battle = function() {
         render.add(this.log);
         //render.add(this.hitboxpan);
         this.panel.show();
+        this.info.show();
         return this.mainLoop;
     }
 
@@ -94,6 +91,7 @@ var Battle = function() {
             this.log.closed = true;
             this.hitboxpan.closed = true;
             this.panel.hide();
+            this.info.hide();
             return false;
         }
         return true;

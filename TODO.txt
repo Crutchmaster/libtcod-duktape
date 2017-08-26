@@ -1,14 +1,10 @@
 Framework:
     Undefinded object check for Renderer and Logic
-    Debug out of hitbox hits
-    Autofire
-    Target auto select
     Large cross sight
-    Injuries
     Items
     Inventory
+    Injuries
     AI
-    GetInput function
 Wrappers:
 
 Release:

@@ -141,16 +141,16 @@ var Map = function() {
             var trans = [];
             var m,x,y;
             var p = this.player;
-            p.turn(1);
+            p.turn(1, true);
             for (var i = 0; i < 5; i++) {
-                p.turn(1);
-                x = p.x+p.dx;
-                y = p.y+p.dy;
+                p.turn(1, true);
+                x = p.x + p.dx;
+                y = p.y + p.dy;
                 m = this.getMapProp(x, y);
                 trans.push({x:x,y:y,t:m.transparent,w:m.walkable});
                 this.setMapProp(x, y, false, m.walkable);
             }
-            p.turn(2);
+            p.turn(2, true);
         }
         tcod_map_compute_fov(this.map_ptr, parseInt(px), parseInt(py), 15, true, 0);
         if (tunnel) {

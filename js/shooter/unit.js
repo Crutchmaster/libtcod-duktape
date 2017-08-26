@@ -46,6 +46,10 @@ var unitAct = {
     aim : {
         time : 300,
         end : function() {return this.aim();}
+    },
+    reload : {
+        time : 2500,
+        end : function() {return this.reload();}
     }
 }
 
@@ -77,8 +81,8 @@ var Unit = function(map) {
             return this.doAct();
         }
     }
-    this.turn = function(d) {
-        this.aimed = false;
+    this.turn = function(d, fake) {
+        if (!fake) {this.aimed = false; this.target = false;}
         this.rotF += d;
         if (this.rotF < 0) this.rotF += 8;
         if (this.rotF > 7) this.rotF -= 8;
@@ -86,7 +90,7 @@ var Unit = function(map) {
         this.dy = this.rotPhase[this.rotF];
     }
     this.walk = function(m) {
-        this.aimed = false;
+        this.aimed = false; this.target = false;
         var tx = this.x + this.dx * m;
         var ty = this.y + this.dy * m;
         var map = this.map;
@@ -162,6 +166,9 @@ var Unit = function(map) {
     this.aim = function() {
         this.aimed = true;
         return "Aimed";
+    }
+    this.reload = function() {
+        this.weapon.clip.fill(this.weapon.clip.bulletType);
     }
     this.hit = function(x, y) {
         return this.hitbox.hit(x, y);

@@ -11,6 +11,7 @@ var playerCtrl = function(c, k) {
     if (k == key.kp9) this.action = unitAct.turn_right_90;
     if (c == 97) this.action = unitAct.aim; //a
     if (c == 102) this.action = unitAct.fire; //f
+    if (c == 114) this.action = unitAct.reload; //r
     if (this.action) {
         this.actTime = this.action.time;
         this.actionEnd = false;

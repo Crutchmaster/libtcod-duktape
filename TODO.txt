@@ -1,10 +1,12 @@
 Framework:
+    Char constants
+    Injuries, dead condition for unit
+    AI
+    Show enemy moves
     Undefinded object check for Renderer and Logic
     Large cross sight
     Items
     Inventory
-    Injuries
-    AI
 Wrappers:
 
 Release:

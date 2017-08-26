@@ -9,13 +9,18 @@ var Bullets = {
 var Clip = function(size) {
     this.size = size;
     this.bullets = [];
+    this.bulletType = {};
     this.fill = function(bullet) {
+        this.bulletType = bullet;
         this.bullets = [];
         for (var i = 0; i < this.size; i++) {
             this.bullets.push(bullet);
         }
     }
     this.fill(Bullets.b_9x19);
+    this.str = function() {
+        return "Clip:"+("|".repeat(this.bullets.length));
+    }
 }
 var Firearm = function(p) {
     if (!p) p = {

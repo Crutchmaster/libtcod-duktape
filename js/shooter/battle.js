@@ -46,6 +46,7 @@ var Battle = function() {
         this.map.compFOV(this.player.x, this.player.y, true);
         var pan = this.panel;
         pan.setStr("help", 1, 0, "Numkeys - move, a - aim, f - fire, c - close doors, q - quit");
+        this.info.setStr("Ammo", 1, 0, this.player.weapon.clip);
     }
 
     this.aim = function() {

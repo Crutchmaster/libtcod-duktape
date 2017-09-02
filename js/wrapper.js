@@ -21,7 +21,8 @@ setColor = function(bg, fg) {
     if (fg) set_default_fg(fg);
 }
 prints = function(x, y, s) {
-    tcod_print(parseInt(x), parseInt(y), s.toString());
+    var str = s.toString().replace("%","%%");
+    tcod_print(parseInt(x), parseInt(y), str);
 }
 putc = function(x, y, c) {
     put_char(parseInt(x), parseInt(y), parseInt(c)); 

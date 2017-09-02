@@ -1,4 +1,4 @@
-var Hitbox = require("js/shooter/hitbox");
+var Body = require("js/shooter/body");
 var Firearm = require("js/shooter/firearm");
 var Skills = require("js/shooter/skills");
 var rotPhase = [0, 1, 1, 1, 0, -1, -1, -1, 0, 1]; //y
@@ -57,7 +57,7 @@ var Unit = function(map) {
     this.unitAct = unitAct;
     this.skill = new Skills();
     this.rotPhase = rotPhase;
-    this.hitbox = new Hitbox("human");
+    this.body = new Body("human");
     this.weapon = new Firearm();
     this.target = false;
     this.targetAim = {};
@@ -171,7 +171,7 @@ var Unit = function(map) {
         this.weapon.clip.fill(this.weapon.clip.bulletType);
     }
     this.hit = function(x, y) {
-        return this.hitbox.hit(x, y);
+        return this.body.hit(x, y);
     }
 }
 

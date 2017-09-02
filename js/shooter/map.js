@@ -118,7 +118,11 @@ var Map = function() {
             if (u != this.player && this.fov(u.x, u.y)) {
                 this.playerTargets.push({x:u.x, y: u.y});
                 setColor(color.black, color.red);
-                prints(u.x, u.y, "@");
+                var gl = (u.body.dead ? "%" : "@");
+                if (u.body.dead) this.setMapProp(u.x, u.y, true, true);
+                prints(u.x, u.y, gl);
+
+
             }
         }
         
@@ -167,7 +171,7 @@ var Map = function() {
         for (var i in this.units) {
             var u = this.units[i];
             if (u != this.player) {
-                if (u.x == x && u.y == y) return false;
+                if (u.x == x && u.y == y && !u.body.dead) return false;
             }
         }
         return true;

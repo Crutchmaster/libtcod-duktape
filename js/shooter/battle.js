@@ -41,7 +41,7 @@ var Battle = function() {
     this.init = function() {
         this.map = new Map();
         this.player = this.map.player;
-        this.hitboxpan = new ui.hitboxpanel(40, 3, this.player.hitbox);
+        this.hitboxpan = new ui.hitboxpanel(40, 3, this.player.body);
         this.player.control = PlayerCtrl;
         this.map.compFOV(this.player.x, this.player.y, true);
         var pan = this.panel;
@@ -60,7 +60,7 @@ var Battle = function() {
         }
         var u = this.map.getUnit(res.x, res.y);
         if (!u) return this.mainLoop;
-        this.hitboxpan.setHitBox(u.hitbox);
+        this.hitboxpan.setHitBox(u.body);
         this.player.target = u;
         this.player.firetraj = tcod_gen_line(res.x0, res.y0, res.x, res.y);
         this.run = function(res) {

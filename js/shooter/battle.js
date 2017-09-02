@@ -19,13 +19,13 @@ var Battle = function() {
         var dx = 0,dy = 0,tx,ty;
         var p = this.player;
         var map = this.map;
-        if (c == 113) {this.quit = true;}
+        if (c == char.q) {this.quit = true;}
         var pAct = p.control(c, k);
         if (pAct == p.unitAct.aim) {
             this.run = this.aim;
         }
         
-        if (c == 99) {
+        if (c == char.c) {
             map.allNear(p.x, p.y, function(x, y) {map.closeDoor(x,y)});
         }
         while (p.actTime > 0) this.turn();

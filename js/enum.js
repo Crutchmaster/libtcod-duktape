@@ -339,6 +339,13 @@ tcod_char["pow1"] = 251;
 tcod_char["pow3"] = 252;
 tcod_char["pow2"] = 253;
 tcod_char["bullet_square"] = 254;
+for (var c = 97; c < 123; c++) {
+    tcod_char[String.fromCharCode(c)] = c;
+}
+for (var c = 65; c < 91; c++) {
+    tcod_char[String.fromCharCode(c)] = c;
+}
+
 
 var tcod_bg = {};
 tcod_bg["none"] = 0;

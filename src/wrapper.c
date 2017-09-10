@@ -73,6 +73,8 @@ duk_ret_t js_get_line(duk_context *ctx) {
     int tx = duk_get_int(ctx, 2);
     int ty = duk_get_int(ctx, 3);
     int x,y,i;
+    x = fx;
+    y = fy;
     duk_idx_t ai,oi;
     ai = duk_push_array(ctx);
     i = 0;

@@ -13,3 +13,6 @@ Release:
     Make all js call safe
     Network
     Games select/download
+
+Other:
+Test speed for...in vs for(;;) for arrays

@@ -12,6 +12,7 @@ var playerCtrl = function(c, k) {
     if (c == char.a) this.action = unitAct.aim;
     if (c == char.f) this.action = unitAct.fire;
     if (c == char.r) this.action = unitAct.reload;
+    if (c == char.l) this.action = unitAct.look;
     if (this.action) {
         this.actTime = this.action.time;
         this.actionEnd = false;

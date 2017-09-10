@@ -1,19 +1,37 @@
-var Aim = function(x, y, targets) {
-    this.x0 = x;
-    this.y0 = y;
-    this.x = x;
-    this.y = y;
-    this.targets = targets;
+var Aim = function() {
+    this.x0 = 0;
+    this.y0 = 0;
+    this.x = 0;
+    this.y = 0;
+    this.targets = [];
     this.enemy = -1;
     this.result = false;
-    this.anim = false;
+    this.showPath = true;
+    this.closed = false;
     this.path = [];
+    this.reset = function() {
+        this.x0 = this.x;
+        this.y0 = this.y;
+        this.enemy = -1;
+        this.result = false;
+        this.path = [];
+        this.show();
+    }
+    this.setOrig = function(orig) {
+        this.x = orig.x;
+        this.y = orig.y;
+    }
+    this.setTargets = function(t) {
+        this.targets = t;
+    }
     this.render = function() {
-        for (var i = 1; i < this.path.length; i++) {
+        for (var i = 1; i < this.path.length && this.showPath; i++) {
             var n = this.path[i];
             setColor(false, color.red);
             prints(n.x, n.y, "*");
         }
+        setColor(false, color.red);
+        prints(this.x, this.y, "+");
     }
 
     this.control = function(c, k) {

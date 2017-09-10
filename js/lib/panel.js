@@ -6,6 +6,15 @@ var panel = function(x, y, w, h) {
     this.fg = color.white;
     this.bg = color.black;
 
+    this.control = function(c, k) {
+        if (k == key.escape) this.hide();
+    }
+
+    this.run = function() {
+        if (this.closed) return false;
+        return true;
+    }
+
     this.render = function() {
         var g = this.geometry;
         setColor(this.bg, this.fg);
@@ -15,7 +24,10 @@ var panel = function(x, y, w, h) {
             var e = this.elements[key];
             setColor(e.bg, e.fg);
             var x = e.x + g.x, y = e.y + g.y;
-            if (typeof(e.str) == "object") prints(x, y, e.str.str())
+            if (typeof(e.str) == "object") {
+                e.str.str && prints(x, y, e.str.str());
+                e.str.out && e.str.out(x, y);
+            }
             else prints(x, y, e.str+"");
         }
     }

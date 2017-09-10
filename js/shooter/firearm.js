@@ -18,8 +18,13 @@ var Clip = function(size) {
         }
     }
     this.fill(Bullets.b_9x19);
+/*
     this.str = function() {
         return "Clip:"+("|".repeat(this.bullets.length));
+    }
+*/
+    this.out = function(x, y) {
+        prints(x, y, "Clip:"+("|".repeat(this.bullets.length)));
     }
 }
 var Firearm = function(p) {

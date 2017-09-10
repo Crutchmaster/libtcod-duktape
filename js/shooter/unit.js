@@ -3,6 +3,7 @@ var Firearm = require("js/shooter/firearm");
 var Skills = require("js/shooter/skills");
 var rotPhase = [0, 1, 1, 1, 0, -1, -1, -1, 0, 1]; //y
              //[1, 1, 0,-1,-1, -1,  0,  1, 1, 1]; x = y + 2;
+var sidename = {x: { "-1" : "W", "0": "", "1" : "E"}, y: { "-1" : "N", "0" : "", "1" : "S"}};
 // \5|6/7(-1)
 // -4  -0(8) 
 // /3|2\1
@@ -12,11 +13,11 @@ var unitAct = {
         end : function() {}
     },
     walk_fwd : {
-        time : 1000,
+        time : 600,
         end : function() {return this.walk(1);}
     },
     walk_back: {
-        time : 1200,
+        time : 800,
         end : function() {return this.walk(-1);}
     },
     turn_left: {
@@ -44,16 +45,25 @@ var unitAct = {
         end : function() {return this.fire();}
     },
     aim : {
-        time : 300,
+        time : 500,
         end : function() {return this.aim();}
     },
     reload : {
         time : 2500,
         end : function() {return this.reload();}
+    },
+    look : {
+        time : 100,
+        end : function() {return this.look();}
     }
 }
 
+for (var actName in unitAct) {
+    unitAct[actName].name = actName;
+}
+
 var Unit = function(map) {
+    this.sidename = sidename;
     this.unitAct = unitAct;
     this.skill = new Skills();
     this.rotPhase = rotPhase;
@@ -63,6 +73,7 @@ var Unit = function(map) {
     this.targetAim = {};
     this.firetraj = false;
     this.hitboxpan = false;
+    this.name = "";
     this.x = 0;
     this.y = 0;
     this.map = map;
@@ -81,6 +92,9 @@ var Unit = function(map) {
             return this.doAct();
         }
     }
+    this.control = function() {
+        return false;
+    }
     this.turn = function(d, fake) {
         if (!fake) {this.aimed = false; this.target = false;}
         this.rotF += d;
@@ -89,6 +103,10 @@ var Unit = function(map) {
         this.dx = this.rotPhase[this.rotF + 2];
         this.dy = this.rotPhase[this.rotF];
     }
+    this.getFaceName = function() {
+        return this.sidename.x[this.dx] + this.sidename.y[this.dy];
+    }
+
     this.walk = function(m) {
         this.aimed = false; this.target = false;
         var tx = this.x + this.dx * m;
@@ -96,7 +114,7 @@ var Unit = function(map) {
         var map = this.map;
         if (map.hasClosedDoor(tx, ty)) {
             map.openDoor(tx, ty);
-            map.compFOV(tx, ty);
+            map.compFOV(this);
             return;
         }
         if (map.walkable(tx,ty)) {
@@ -106,6 +124,7 @@ var Unit = function(map) {
     this.fire = function() {
         if (!this.target) return "No target";
         var range = this.firetraj.length;
+        this.hitboxpan.setHitBox(this.target.body);
         this.hitboxpan.show();
         this.hitboxpan.anim = true;
         this.hitboxpan.closed = false;
@@ -154,18 +173,25 @@ var Unit = function(map) {
             this.map.render();
             this.hitboxpan.render();
             tcod_flush();
-            ret.push(hit_part ? "Hit in " + hit_part : "Miss");
+            ret.push(this.name + (hit_part ? " hit in " + hit_part : " miss"));
         }
         this.hitboxpan.anim = false;
         this.hitboxpan.render();
         tcod_flush();
-        sleep(1500);
+        sleep(1000);
         this.hitboxpan.hide();
         return ret;
     }
+    this.setTarget = function(target) {
+        this.target = target;
+        this.firetraj = tcod_gen_line(this.x, this.y, target.x, target.y);
+    }
     this.aim = function() {
         this.aimed = true;
-        return "Aimed";
+        return this.name+" aimed";
+    }
+    this.look = function() {
+        return this.name+" look";
     }
     this.reload = function() {
         this.weapon.clip.fill(this.weapon.clip.bulletType);

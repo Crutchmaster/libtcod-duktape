@@ -1,4 +1,5 @@
 var Unit = require("js/shooter/unit");
+var aiCtrl = require("js/shooter/aiCtrl");
 var Door = function() {
     this.closed = true;
 }
@@ -26,6 +27,8 @@ var Map = function() {
             var enemy = new Unit(this);
             enemy.x = pos.x;
             enemy.y = pos.y;
+            enemy.name = "Enemy";
+            enemy.control = aiCtrl;
             this.units.push(enemy);
         }
         this.player.x = this.player_pos.x;
@@ -121,6 +124,10 @@ var Map = function() {
                 var gl = (u.body.dead ? "%" : "@");
                 if (u.body.dead) this.setMapProp(u.x, u.y, true, true);
                 prints(u.x, u.y, gl);
+                if (!u.body.dead) {
+                    setColor(color.black, color.blue);
+                    prints(u.x + u.dx, u.y + u.dy, "+");
+                }
 
 
             }
@@ -140,11 +147,10 @@ var Map = function() {
         }
     }
     this.setBullet = function(b) {this.bullet = b;}
-    this.compFOV = function(px, py, tunnel) {
+    this.compFOV = function(p, tunnel) {
         if (tunnel) {
             var trans = [];
-            var m,x,y;
-            var p = this.player;
+            var m, x, y;
             p.turn(1, true);
             for (var i = 0; i < 5; i++) {
                 p.turn(1, true);
@@ -156,7 +162,7 @@ var Map = function() {
             }
             p.turn(2, true);
         }
-        tcod_map_compute_fov(this.map_ptr, parseInt(px), parseInt(py), 15, true, 0);
+        tcod_map_compute_fov(this.map_ptr, parseInt(p.x), parseInt(p.y), 15, true, 0);
         if (tunnel) {
             for (var i in trans) {
                 var t = trans[i];
@@ -179,6 +185,35 @@ var Map = function() {
     this.fov = function(x, y) {
         var m = tcod_map_get_prop(this.map_ptr, parseInt(x), parseInt(y));
         return m.fov;
+    }
+    this.los = function(p1, p2, tunnel) {
+        var traj = tcod_gen_line(p1.x, p1.y, p2.x, p2.y);
+        var check = function(d1, d2) {
+            return (d1.x == d2.x) && (d1.y == d2.y);
+        }
+        for (var i in traj) {
+            var p = traj[i];
+            if (tunnel && i == 1) {
+                var d = { x : p.x - p1.x, y : p.y - p1.y};
+                var r1 = false, r2 = false, r3 = false;
+                r1 = check(d, {x : p1.dx, y:p1.dy});
+                p1.turn(1, true);
+                r2 = check(d, {x : p1.dx, y:p1.dy});
+                p1.turn(-2, true);
+                r3 = check(d, {x : p1.dx, y:p1.dy});
+                p1.turn(1, true);
+                if (!r1 && !r2 && !r3) return false;
+            }
+            if (!this.trans(p.x, p.y)) {
+                return false;
+            }
+        }
+        //for (var i in traj) {
+            //var p = traj[i];
+            //print(i+":"+p.x+";"+p.y);
+        //}
+        //print("Fov checked");
+        return true;
     }
     this.trans = function(x, y) {
         var m = tcod_map_get_prop(this.map_ptr, parseInt(x), parseInt(y));

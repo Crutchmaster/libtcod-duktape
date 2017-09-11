@@ -55,7 +55,7 @@ var Battle = function() {
         this.player.control = PlayerCtrl;
         this.map.compFOV(this.player, true);
         var pan = this.panel;
-        pan.setStr("help", 1, 0, "Numkeys - move, a - aim, f - fire, c - close doors, q - quit");
+        pan.setStr("help", 1, 0, "Numkeys - move, a - aim, f - fire, r - reload, c - close doors, q - quit");
         this.info.setStr("Ammo", 1, 0, this.player.weapon.clip);
     }
 

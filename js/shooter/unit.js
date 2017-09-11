@@ -55,6 +55,10 @@ var unitAct = {
     look : {
         time : 100,
         end : function() {return this.look();}
+    },
+    closeDoors : {
+        time : 400,
+        end : function() {return this.closeDoors();}
     }
 }
 
@@ -166,19 +170,21 @@ var Unit = function(map) {
                 this.map.render();
                 this.hitboxpan.render();
                 tcod_flush();
-                sleep(100);
+                sleep(25);
             }
+            var dead = this.target.body.dead;
             var hit_part = this.target.hit(Math.floor(x), Math.floor(y));
             this.map.setBullet(false);
             this.map.render();
             this.hitboxpan.render();
             tcod_flush();
             ret.push(this.name + (hit_part ? " hit in " + hit_part : " miss"));
+            if (dead != this.target.body.dead) ret.push(this.target.name + " dead");
         }
         this.hitboxpan.anim = false;
         this.hitboxpan.render();
         tcod_flush();
-        sleep(1000);
+        sleep(500);
         this.hitboxpan.hide();
         return ret;
     }
@@ -198,6 +204,10 @@ var Unit = function(map) {
     }
     this.hit = function(x, y) {
         return this.body.hit(x, y);
+    }
+    this.closeDoors = function() {
+        var map = this.map;
+        map.allNear(this.x, this.y, function(x, y) {map.closeDoor(x,y)});
     }
 }
 

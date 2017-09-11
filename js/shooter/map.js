@@ -135,7 +135,7 @@ var Map = function() {
         
         var p = this.player;
         setColor(color.black, color.white);
-        prints(p.x, p.y, "@");
+        prints(p.x, p.y, p.body.dead ? "%" : "@");
         setColor(color.black, color.red);
         prints(p.x + p.dx, p.y + p.dy, "+");
 
@@ -162,7 +162,7 @@ var Map = function() {
             }
             p.turn(2, true);
         }
-        tcod_map_compute_fov(this.map_ptr, parseInt(p.x), parseInt(p.y), 15, true, 0);
+        tcod_map_compute_fov(this.map_ptr, parseInt(p.x), parseInt(p.y), 100, true, 0);
         if (tunnel) {
             for (var i in trans) {
                 var t = trans[i];

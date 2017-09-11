@@ -22,17 +22,11 @@ var Battle = function() {
         var p = this.player;
         var map = this.map;
         if (c == char.q) {this.quit = true;}
-        var pAct = p.control(c, k);
-        if (pAct == p.unitAct.aim) {
-            this.run = this.aim;
-        }
-        if (pAct == p.unitAct.look) {
-            this.run = this.look;
-        }
+        var pAct = false;
+        if (!p.body.dead) pAct = p.control(c, k);
+        if (pAct == p.unitAct.aim) this.run = this.aim;
+        if (pAct == p.unitAct.look) this.run = this.look;
         
-        if (c == char.c) {
-            map.allNear(p.x, p.y, function(x, y) {map.closeDoor(x,y)});
-        }
         while (p.actTime > 0) this.turn();
         map.compFOV(p, true);
     }

@@ -15,7 +15,7 @@ var playerCtrl = function(c, k) {
     if (c == char.l) this.action = unitAct.look;
     if (c == char.c) this.action = unitAct.closeDoors;
     if (this.action) {
-        this.actTime = this.action.time;
+        this.actTime = this.getActionTime(this.action);
         this.actionEnd = false;
     }
     return this.action;

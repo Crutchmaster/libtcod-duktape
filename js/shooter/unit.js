@@ -72,7 +72,7 @@ var Unit = function(map) {
     this.skill = new Skills();
     this.rotPhase = rotPhase;
     this.body = new Body("human");
-    this.weapon = new Firearm();
+    this.weapon = null;
     this.target = false;
     this.targetAim = {};
     this.firetraj = false;
@@ -109,6 +109,9 @@ var Unit = function(map) {
     }
     this.getFaceName = function() {
         return this.sidename.x[this.dx] + this.sidename.y[this.dy];
+    }
+    this.getActionTime = function(action) {
+        return action.time;
     }
 
     this.walk = function(m) {

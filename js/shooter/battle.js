@@ -1,7 +1,10 @@
 var Map = require("js/shooter/map");
 var PlayerCtrl = require("js/shooter/playerCtrl");
 var Aim = require("js/shooter/aim");
-
+var Stuff = require("js/shooter/guns");
+var Gun = Stuff.guns;
+var Ammo = Stuff.bullets;
+var Firearm = require("js/shooter/firearm");
 
 var Battle = function() {
     this.player = {};
@@ -16,6 +19,7 @@ var Battle = function() {
     this.quit = false;
     this.closed = false;
     this.global = {};
+    this.time = 0;
 
     this.control = function(c, k) {
         var dx = 0,dy = 0,tx,ty;
@@ -31,6 +35,7 @@ var Battle = function() {
         map.compFOV(p, true);
     }
     this.turn = function() {
+        this.time += 100;
         this.log.push(this.player.doTurn());
         for (var i in this.map.units) {
             var u = this.map.units[i];
@@ -47,16 +52,39 @@ var Battle = function() {
     this.init = function() {
         this.map = new Map();
         this.player = this.map.player;
+        this.player.weapon = new Firearm(Gun.glock17);
+        this.player.weapon.clip.fill(Ammo.b_9x19);
         this.player.name = "Player";
         this.hitboxpan = new ui.hitboxpanel(40, 3, this.player.body);
         for (var i in this.map.units) {
-            this.map.units[i].hitboxpan = this.hitboxpan;
+            var u = this.map.units[i];
+            u.hitboxpan = this.hitboxpan;
+            if (u != this.player) {
+                u.weapon = new Firearm(Gun.glock17);
+                u.weapon.clip.fill(Ammo.b_9x19);
+            }
         }
         this.player.control = PlayerCtrl;
         this.map.compFOV(this.player, true);
         var pan = this.panel;
         pan.setStr("help", 1, 0, "Numkeys - move, a - aim, f - fire, r - reload, c - close doors, q - quit");
-        this.info.setStr("Ammo", 1, 0, this.player.weapon.clip);
+        this.info.setStr("Weapon", 1, 0, this.player.weapon);
+        this.info.setStr("Ammo", 1, 1, this.player.weapon.clip);
+        this.info.setStr("Battle", 1, 4, this);
+    }
+
+    this.out = function(x, y) {
+        var s = Math.floor(this.time/1000);
+        var ms = this.time - s * 1000;
+        var m = Math.floor(s / 60);
+        var h = Math.floor(m / 60);
+        var min = m - h * 60;
+        var sec = s - m * 60;
+        if (h < 10) h = "0" + h;
+        if (min < 10) min = "0" + min;
+        if (sec < 10) sec = "0" + sec;
+        if (ms < 100) ms = "00" + ms;
+        prints(x, y, "Time: " + h + ":" + min + ":" + sec + ":" + ms);
     }
 
     this.look = function() {

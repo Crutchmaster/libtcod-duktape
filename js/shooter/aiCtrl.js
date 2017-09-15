@@ -43,7 +43,7 @@ var aiCtrl = function() {
     this.actionControl = this.ai.action.control;
     this.action = this.actionControl();
     if (this.action) {
-        this.actTime = this.action.time;
+        this.actTime = this.getActionTime(this.action);
         this.actionEnd = false;
     }
     return this.action;

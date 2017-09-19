@@ -83,7 +83,8 @@ var templates = {
 var body = function(template_name) {
     this.tpl = templates;
     this.hitbox_tpl = this.tpl[template_name];
-    this.hitbox = this.hitbox_tpl.hitbox;
+    this.hitbox = [];
+    this.hitbox[0] = this.hitbox_tpl.hitbox;
     this.lasthit = [];
     this.blood = 100;
     this.bleed = 0;
@@ -91,21 +92,24 @@ var body = function(template_name) {
     this.dead = false;
     this.clearHits = function() {this.lasthis = [];}
     this.hit = function(x, y) {
-        if (!between(y, 0, this.hitbox.length-1) || !between(x, 0, this.hitbox[y].length-1)) return false;
-        var c = this.hitbox[y].charAt(x);
-        if (c == " ") return false;
-        var wound_id = [c,x,y].join(";");
-        var w = this.hitbox_tpl.wounds[c];
-        if (w) {
-            if (w.fatal) this.dead = true;
-            this.blood -= w.bl_inst;
-            this.bleed += w.bl;
-            if (this.blood <= 0) this.dead = true;
+        for (var i = 0; i < this.hitbox.length; i++) {
+            var hitbox = this.hitbox[i];
+            if (!between(y, 0, hitbox.length-1) || !between(x, 0, hitbox[y].length-1)) return false;
+            var c = hitbox[y].charAt(x);
+            if (c == " ") return false;
+            var wound_id = [c,x,y].join(";");
+            var w = this.hitbox_tpl.wounds[c];
+            if (w) {
+                if (w.fatal) this.dead = true;
+                this.blood -= w.bl_inst;
+                this.bleed += w.bl;
+                if (this.blood <= 0) this.dead = true;
+            }
+            if (!this.wounds[wound_id]) this.wounds[wound_id] = 1; else
+                this.wounds[wound_id]++;
+            this.lasthit.push({x:x, y:y});
+            return this.hitbox_tpl.legend[c];
         }
-        if (!this.wounds[wound_id]) this.wounds[wound_id] = 1; else
-            this.wounds[wound_id]++;
-        this.lasthit.push({x:x, y:y});
-        return this.hitbox_tpl.legend[c];
     }
 }
 module.exports = body;

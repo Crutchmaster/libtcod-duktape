@@ -13,10 +13,13 @@ var guns = {
         autofire : true,
         autoShots : 6,
         chamber : true,
+        reloadTime : 2500,
+        aimTimeMod : 0,
         recoil : {v:-0.2, h:0},
         acc : 20,
         brustReAim: 2,
-        cal : "9x19"
+        cal : "9x19",
+
     },
     glock17 : {
         name : "Glock 17",
@@ -24,6 +27,8 @@ var guns = {
         autofire : false,
         autoShots : 0,
         chamber : true,
+        reloadTime : 1600,
+        aimTimeMod : -100,
         recoil : {v:-0.3, h:0},
         acc : 14,
         brustReAim: 0,

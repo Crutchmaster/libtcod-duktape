@@ -53,7 +53,7 @@ var unitAct = {
         end : function() {return this.reload();}
     },
     look : {
-        time : 100,
+        time : 10,
         end : function() {return this.look();}
     },
     closeDoors : {
@@ -89,7 +89,7 @@ var Unit = function(map) {
     this.dy = 0;
     this.rotF = 0;
     this.doTurn = function() {
-        this.actTime -= 100;
+        this.actTime -= 10;
         if (this.actTime <= 0 && !this.actionEnd && this.action) {
             this.actionEnd = true;
             this.doAct = this.action.end;
@@ -111,7 +111,10 @@ var Unit = function(map) {
         return this.sidename.x[this.dx] + this.sidename.y[this.dy];
     }
     this.getActionTime = function(action) {
-        return action.time;
+        var ret = action.time;
+        if (action == this.unitAct.aim) ret += this.weapon.aimTimeMod;
+        if (action == this.unitAct.reload) ret = this.weapon.reloadTime;
+        return ret;
     }
 
     this.walk = function(m) {

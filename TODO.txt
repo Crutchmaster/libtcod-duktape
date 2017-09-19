@@ -1,12 +1,12 @@
 Framework:
-    Char constants
-    Injuries, dead condition for unit
-    AI
+    Armor
+    Covers
+    Update AI
+    Inventory
     Show enemy moves
     Undefinded object check for Renderer and Logic
     Large cross sight
     Items
-    Inventory
 Wrappers:
 
 Release:
@@ -15,4 +15,4 @@ Release:
     Games select/download
 
 Other:
-Test speed for...in vs for(;;) for arrays
+Use for (;;) instead for..in for arrays - 10x speedup

@@ -35,9 +35,9 @@ var Battle = function() {
         map.compFOV(p, true);
     }
     this.turn = function() {
-        this.time += 100;
+        this.time += 10;
         this.log.push(this.player.doTurn());
-        for (var i in this.map.units) {
+        for (var i = 0; i < this.map.units.length; i++) {
             var u = this.map.units[i];
             if (u != this.player) {
                 u.control();
@@ -83,7 +83,8 @@ var Battle = function() {
         if (h < 10) h = "0" + h;
         if (min < 10) min = "0" + min;
         if (sec < 10) sec = "0" + sec;
-        if (ms < 100) ms = "00" + ms;
+        if (ms < 100) ms = "0" + ms;
+        if (ms < 10) ms = "0" + ms;
         prints(x, y, "Time: " + h + ":" + min + ":" + sec + ":" + ms);
     }
 

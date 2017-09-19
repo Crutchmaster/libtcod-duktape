@@ -28,6 +28,7 @@ var aiActions = {
 }
 var aiCtrl = function() {
     if (this.body.dead) return false;
+    if (this.actTime >= 0) return;
     if (!this.ai) {
         this.ai = {
             actions : aiActions,
@@ -37,7 +38,6 @@ var aiCtrl = function() {
     }
     this.ai.playerFOV = this.map.los(this, this.map.player, true); 
     
-    if (this.actTime >= 0) return;
     this.action = false;
     //select action
     this.actionControl = this.ai.action.control;

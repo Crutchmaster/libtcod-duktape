@@ -1,11 +1,3 @@
-var Bullets = {
-    b_9x19 : {
-        cal : "9x19",
-        damage : 8,
-        ap : 0.7,
-        recoil : 40
-    }
-};
 var Clip = function(size, cal) {
     this.size = size;
     this.bullets = [];
@@ -18,7 +10,6 @@ var Clip = function(size, cal) {
             this.bullets.push(bullet);
         }
     }
-    //this.fill(Bullets.b_9x19);
 /*
     this.str = function() {
         return "Clip:"+("|".repeat(this.bullets.length));
@@ -34,6 +25,8 @@ var Firearm = function(p) {
             autofire : true,
             autoShots : 6,
             chamber : true,
+            reloadTime : 2500,
+            aimTimeMod : 0,
             recoil : {v:-0.2, h:0},
             acc : 20,
             brustReAim: 2,
@@ -46,6 +39,8 @@ var Firearm = function(p) {
     this.autoShots = p.autoShots;
     this.chamber = p.chamber ? {} : false;
     this.recoil = p.recoil;
+    this.reloadTime = p.reloadTime;
+    this.aimTimeMod = p.aimTimeMod;
     this.acc = p.acc;
     this.brustSize = 2;
     this.brustReAim = 3;

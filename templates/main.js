@@ -11,7 +11,7 @@ var ctrl = function() {
     }
     this.init = function() {
         //init code
-        //render.add(this); to add to rendering stack.
+        //render.add(this); add to rendering stack.
         return this.work;
     }
     this.work = function() {

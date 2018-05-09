@@ -26,4 +26,8 @@ duk_ret_t js_map_compute_fov(duk_context *ctx);
 duk_ret_t js_astar_path(duk_context *ctx);
 duk_ret_t js_get_line(duk_context *ctx);
 
+duk_ret_t js_read_input(duk_context *ctx);
+duk_ret_t js_read_input_block(duk_context *ctx);
+duk_ret_t js_is_window_closed(duk_context *ctx);
+
 #endif /*WRAPPER_H_INCLUDED*/

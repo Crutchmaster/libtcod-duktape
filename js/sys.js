@@ -1,3 +1,27 @@
+var Engine = function() {
+    this.activeModule = false;
+    this.items = [];
+
+    this.active = function(i) {this.activeModule = i;}
+    this.add = function(i) {
+        this.items.push(i);
+        this.active = i;
+    }
+        
+    this.render = function() {
+        tcod_clear();
+         for (var i = 0; i < this.items.length; i++ ) {
+            if (!this.items[i].closed) {this.items[i].render();}
+        }
+   
+    }
+    this.onKeyType(c, k) = function() {
+        this.activeModule.onKeyType(c, k);
+            
+    }
+
+}
+
 var Renderer = function() {
     this.items = [];
     this.add = function(i) {this.items.push(i);}

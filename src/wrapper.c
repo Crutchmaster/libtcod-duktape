@@ -37,8 +37,9 @@ void init_duk(duk_context *ctx) {
     reg_fun(ctx, js_astar_path, "tcod_astar_path");
     reg_fun(ctx, js_get_line, "tcod_gen_line");
 
-    duk_peval_string_noresult(ctx, "function onRender() {}");
-    duk_peval_string_noresult(ctx, "function onKeyPress(key, code) {}");
+    reg_fun(ctx, js_read_input, "read_input");
+    reg_fun(ctx, js_read_input_block, "read_input_block");
+    reg_fun(ctx, js_is_window_closed, "game_window_closed");
 }
 
 duk_ret_t js_console_clear(duk_context *ctx) {
@@ -211,3 +212,30 @@ duk_ret_t js_console_put_char(duk_context *ctx) {
     return 0;
 }
 
+duk_ret_t js_read_input(duk_context *ctx) {
+    TCOD_key_t key = TCOD_console_check_for_keypress(TCOD_KEY_PRESSED);
+    duk_idx_t i;
+    i = duk_push_object(ctx);
+    duk_push_int(ctx, (int)key.c);
+    duk_put_prop_string(ctx, i, "keychar");
+    duk_push_int(ctx, key.vk);
+    duk_put_prop_string(ctx, i, "keycode");
+    return 1;
+}
+
+duk_ret_t js_read_input_block(duk_context *ctx) {
+    TCOD_key_t key;
+    TCOD_sys_wait_for_event(TCOD_EVENT_KEY_PRESS, &key, NULL, true);
+    duk_idx_t i;
+    i = duk_push_object(ctx);
+    duk_push_int(ctx, (int)key.c);
+    duk_put_prop_string(ctx, i, "keychar");
+    duk_push_int(ctx, key.vk);
+    duk_put_prop_string(ctx, i, "keycode");
+    return 1;
+}
+duk_ret_t js_is_window_closed(duk_context *ctx) {
+    bool quit = TCOD_console_is_window_closed();
+    duk_push_boolean(ctx, quit);
+    return 1;
+}

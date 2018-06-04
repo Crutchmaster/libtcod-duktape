@@ -1,34 +1,38 @@
-var panel = function(x, y, w, h) {
+var panel = function(x, y, w, h, parent) {
     this.result = false;
     this.box = false;
     this.geometry = {x:x, y:y, w:w, h:h};
     this.elements = {};
     this.fg = color.white;
     this.bg = color.black;
+    this.parent = parent;
 
-    this.control = function(c, k) {
-        if (k == key.escape) this.hide();
-    }
+    this.get = function() {
+        this.parent.render();
+        do {
+            var k = read_input_block().keycode;
+            if (k == key.escape) this.hide();
+            this.parent.render();
+        } while (!this.closed);
 
-    this.run = function() {
-        if (this.closed) return false;
-        return true;
     }
 
     this.render = function() {
-        var g = this.geometry;
-        setColor(this.bg, this.fg);
-        clearBox(g.x, g.y, g.w, g.h);
-        if (this.box) printBox(g.x, g.y, g.w, g.h);
-        for (var key in this.elements) {
-            var e = this.elements[key];
-            setColor(e.bg, e.fg);
-            var x = e.x + g.x, y = e.y + g.y;
-            if (typeof(e.str) == "object") {
-                e.str.str && prints(x, y, e.str.str());
-                e.str.out && e.str.out(x, y);
+        if (!this.closed) {
+            var g = this.geometry;
+            setColor(this.bg, this.fg);
+            clearBox(g.x, g.y, g.w, g.h);
+            if (this.box) printBox(g.x, g.y, g.w, g.h);
+            for (var key in this.elements) {
+                var e = this.elements[key];
+                setColor(e.bg, e.fg);
+                var x = e.x + g.x, y = e.y + g.y;
+                if (typeof(e.str) == "object") {
+                    e.str.str && prints(x, y, e.str.str());
+                    e.str.out && e.str.out(x, y);
+                }
+                else prints(x, y, e.str+"");
             }
-            else prints(x, y, e.str+"");
         }
     }
     this.setStr = function(key, x, y, str, fg, bg) {

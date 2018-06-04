@@ -28,9 +28,11 @@ config.title = "ltsdt";
 
 ui = require('js/ui');
 require("js/wrapper");
-sys = require("js/sys");
 
+
+sys = require("js/sys");
+/*
 render = new sys.Renderer();
 logic = new sys.Logic();
 logic.add(new sys.GameSelector());
-
+*/

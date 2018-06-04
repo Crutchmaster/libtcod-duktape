@@ -89,6 +89,7 @@ var Unit = function(map) {
     this.dy = 0;
     this.rotF = 0;
     this.doTurn = function() {
+        if (this.body.dead) return;
         this.actTime -= 10;
         if (this.actTime <= 0 && !this.actionEnd && this.action) {
             this.actionEnd = true;

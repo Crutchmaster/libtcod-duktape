@@ -10,7 +10,23 @@ var menu = function(x, y, w, h, list) {
     this.h = h;
     this.list = list;
     this.start = 0;
-    this.control = function(c, k) {
+
+    this.get = function() {
+        this.show();
+        this.render();
+        do {
+            this.control(read_input_block().keycode);
+            this.render();
+        }
+        while (!this.closed) 
+        return this.index;
+    }
+
+    this.getLastIndex = function() {
+        return this.list.length - 1;
+    }
+
+    this.control = function(k) {
         var max = this.list.length - 1;
         var size = this.h - 2;
         if (k == key.up) {
@@ -26,6 +42,7 @@ var menu = function(x, y, w, h, list) {
         if (k == key.enter || k == key.kpenter) this.submit();
         if (k == key.escape) this.close();
     }
+
     this.submit = function() {
         this.index = this.idx;
         this.closed = true;
@@ -49,7 +66,9 @@ var menu = function(x, y, w, h, list) {
             prints(x+1, ys, this.list[i]);
         }
         setColor(color.black);
+        tcod_flush();
     }
 }
+menu.prototype = new ui.proto();
 
 module.exports = menu;

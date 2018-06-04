@@ -1,4 +1,4 @@
-var Aim = function() {
+var Aim = function(parent) {
     this.x0 = 0;
     this.y0 = 0;
     this.x = 0;
@@ -9,6 +9,8 @@ var Aim = function() {
     this.showPath = true;
     this.closed = false;
     this.path = [];
+    this.parent = parent;
+
     this.reset = function() {
         this.x0 = this.x;
         this.y0 = this.y;
@@ -24,17 +26,31 @@ var Aim = function() {
     this.setTargets = function(t) {
         this.targets = t;
     }
+    this.get = function() {
+        do
+        {
+            this.parent.render();
+            this.control();
+        } while (!this.closed);
+        this.parent.render();
+        this.hide();
+        return this.result;
+    }
     this.render = function() {
-        for (var i = 1; i < this.path.length && this.showPath; i++) {
-            var n = this.path[i];
+        if (!this.closed) {
+            for (var i = 1; i < this.path.length && this.showPath; i++) {
+                var n = this.path[i];
+                setColor(false, color.red);
+                prints(n.x, n.y, "*");
+            }
             setColor(false, color.red);
-            prints(n.x, n.y, "*");
+            prints(this.x, this.y, "+");
         }
-        setColor(false, color.red);
-        prints(this.x, this.y, "+");
     }
 
-    this.control = function(c, k) {
+
+    this.control = function() {
+        var k = read_input_block().keycode;
         var xo = this.x, yo = this.y;
         if (k == key.up || k == key.kp8) this.y--;
         if (k == key.down || k == key.kp2) this.y++;
@@ -57,18 +73,6 @@ var Aim = function() {
         this.x = t.x;
         this.y = t.y;
     }
-    this.init = function() {
-        render.add(this); 
-        return this.work;
-    }
-    this.work = function() {
-        if (this.closed) {
-            return false;
-        }
-        return true;
-    }
-
-    this.run = this.init;
 }
 Aim.prototype = new ui.proto();
 module.exports = Aim;

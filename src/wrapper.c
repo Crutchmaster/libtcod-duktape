@@ -214,6 +214,7 @@ duk_ret_t js_console_put_char(duk_context *ctx) {
 
 duk_ret_t js_read_input(duk_context *ctx) {
     TCOD_key_t key = TCOD_console_check_for_keypress(TCOD_KEY_PRESSED);
+    if (TCOD_console_is_window_closed()) exit(0);
     duk_idx_t i;
     i = duk_push_object(ctx);
     duk_push_int(ctx, (int)key.c);
@@ -226,6 +227,7 @@ duk_ret_t js_read_input(duk_context *ctx) {
 duk_ret_t js_read_input_block(duk_context *ctx) {
     TCOD_key_t key;
     TCOD_sys_wait_for_event(TCOD_EVENT_KEY_PRESS, &key, NULL, true);
+    if (TCOD_console_is_window_closed()) exit(0);
     duk_idx_t i;
     i = duk_push_object(ctx);
     duk_push_int(ctx, (int)key.c);

@@ -71,9 +71,18 @@ var Logic = function() {
 var GameSelector = function() {
     this.state = 0;
     this.menu = {};
-    this.control = function(c, k) {
-        return this.menu.control(c, k);
+
+    this.getGame = function() {
+        var ret = false;
+        var n = this.menu.get();
+        if (n >= 0) {
+            var dirname = this.menu.list[n];
+            var Game = require("js/"+dirname+"/main");
+            ret = new Game();
+        } 
+        return ret;
     }
+
     this.init = function() {
         var games_list = read_dir_list("js/");
         for (var i = 0; i < games_list.length; i++) {
@@ -84,31 +93,8 @@ var GameSelector = function() {
             }
         }
         this.menu = new ui.menu(5,3,70,20, games_list);
-        return this.menuInit;
     }
 
-    this.menuInit = function(ret) {
-        if (ret) print(ret);
-        this.menu.closed = false;
-        this.menu.index = -1;
-        render.add(this.menu);
-        return this.onMenuSelect;
-    }
-    this.onMenuSelect = function() {
-        if (this.menu.closed) {
-            if (this.menu.index >= 0 ) {
-                var dirname = this.menu.list[this.menu.index];
-                var Game = require("js/"+dirname+"/main");
-                this.run = this.menuInit;
-                return new Game();
-            } else {
-                return false;
-            }
-        }
-        return true;
-    }
-
-
-    this.run = this.init;
+    this.init();
 }
 module.exports = {Logic: Logic, Renderer: Renderer, GameSelector: GameSelector};

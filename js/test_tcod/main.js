@@ -49,18 +49,14 @@ var tcodTest = function() {
     this.init = function() {
         this.mapgen();
     }
-    this.run = function() {
-        if (this.state == 0) {
-            render.add(this.ui);
-            this.state = 1;
-        } else {
-            if (this.over) {
-                this.ui.closed = true;
-                return false;
-            }
-            return true;
-        }
-        return true;
+    this.play = function() {
+        var ev;
+        do {
+            this.ui.render();
+            tcod_flush();
+            ev = read_input_block();
+            this.control(ev.keychar, ev.keycode);
+        } while (!this.over)
     }
     this.control = function(c, k) {
         var dx=0,dy=0;

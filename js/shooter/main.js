@@ -7,25 +7,18 @@ var gameShooter = function() {
             "Quit"
         ]
         this.mainMenu = new ui.menu(3,3,40,10, menuItems);
-        render.add(this.mainMenu);
-        return this.menuRun;
     }
-    this.control = function(c, k) {
-         return this.mainMenu.control(c, k);
-    }
-    this.menuRun = function() {
-        if (this.mainMenu.closed) {
-            var menu = this.mainMenu;
-            this.run = this.init;
-            if (menu.index < 0) return false;
-            if (menu.index == 0) {
-                return new Battle();
+    this.play = function() {
+        var n;
+        do {
+            n = this.mainMenu.get();
+            if (n == 0) { //test fight
+                new Battle().play();
             }
-            if (menu.index == 1) return false;
-        }
-        return true;
+        } while (n != -1 && n != this.mainMenu.getLastIndex())
     }
-    this.run = this.init;
+
+    this.init();
 }
 
 module.exports = gameShooter;
